@@ -4,6 +4,8 @@ import com.zhs.dto.UserDto;
 import com.zhs.entity.SysUser;
 import com.zhs.vo.UserVo;
 
+import java.util.List;
+
 /**
  * @author: zhouhuasheng
  * @date: 2019/10/15 15:09
@@ -38,4 +40,13 @@ public interface IUserService {
      * @return
      */
     UserVo findUserById(Long id);
+
+
+    /**
+     * 带条件查询所有
+     * @param userDto
+     * @return
+     */
+    List<UserVo> findAll(UserDto userDto);
+
 }

@@ -8,9 +8,17 @@ import com.zhs.service.IUserService;
 import com.zhs.vo.UserVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -77,4 +85,51 @@ public class UserServiceImpl implements IUserService {
         BeanUtils.copyProperties(sysUser,userVo);
         return userVo;
     }
+
+    @Override
+    public List<UserVo> findAll(UserDto userDto) {
+
+
+        SysUser sysUser = new SysUser();
+
+        BeanUtils.copyProperties(userDto,sysUser);
+        List<SysUser> list = userRepository.findAll(new Specification<SysUser>() {
+
+            /**
+             *
+             * @param root 跟对象  也就是也要把条件分装到那个对象中，where类名 = user》getUsername
+             * @param criteriaQuery 分装的都是查询的换剪子  比如 groupby order by等等
+             * @param criteriaBuilder 用来分装条件对象 如果直接返回null 表示不需要任何条件
+             * @return
+             */
+            @Override
+            public Predicate toPredicate(Root<SysUser> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+
+
+                List<Predicate> list = new ArrayList<>(16);
+                if (sysUser.getUserName() != null && !"".equals(sysUser.getUserName())) {
+                    //用户名模糊查询
+                    Predicate predicate = criteriaBuilder.like(root.get("userName").as(String.class), "%" + sysUser.getUserName() + "%");
+                    list.add(predicate);
+                }
+
+                if (sysUser.getStatus() != null && !"".equals(sysUser.getStatus())) {
+                    //用户名模糊查询
+                    Predicate predicate = criteriaBuilder.equal(root.get("status").as(Integer.class), sysUser.getStatus());
+                    list.add(predicate);
+                }
+
+                Predicate[] parr = new Predicate[list.size()];
+
+                //把list专场数组
+                list.toArray(parr);
+                return criteriaBuilder.and(parr);
+            }
+        });
+
+        return null;
+
+    }
 }
+
+

@@ -2,6 +2,7 @@ package com.zhs.dao;
 
 import com.zhs.entity.SysUser;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,9 +12,11 @@ import org.springframework.stereotype.Repository;
  * @version: 1.0
  */
 @Repository
-public interface UserRepository extends JpaRepository<SysUser,Long> {
+public interface UserRepository extends JpaRepository<SysUser,Long>, JpaSpecificationExecutor<SysUser> {
 
 
     SysUser findSysUserByUserName(String userName);
+
+
 
 }
