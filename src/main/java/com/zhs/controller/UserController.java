@@ -1,15 +1,18 @@
 package com.zhs.controller;
 
 import com.zhs.Result;
+import com.zhs.condition.UserCondition;
 import com.zhs.dto.UserDto;
 import com.zhs.enums.ResultCode;
 import com.zhs.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.awt.print.Pageable;
 
 /**
  * @author: zhouhuasheng
@@ -53,10 +56,16 @@ public class UserController {
     }
 
 
-//    @GetMapping("/getAll")
-//    @ApiOperation(value = "分页获取",notes = "分页获取")
-//    public Result findAll(){
-//
-//    }
+    @GetMapping("/findAll")
+    public Result findAll( UserCondition userCondition){
+        return Result.success(ResultCode.SUCCESS,userService.findAll(userCondition));
+    }
 
+
+    @GetMapping("/findPage")
+    public Result findPage( UserCondition userCondition,@RequestParam(defaultValue = "1") int page,@RequestParam(defaultValue = "10")int pageSize){
+
+        return Result.success(ResultCode.SUCCESS,userService.findPage(userCondition,page,pageSize));
+
+    }
 }

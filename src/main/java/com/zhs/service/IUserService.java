@@ -1,8 +1,10 @@
 package com.zhs.service;
 
+import com.zhs.condition.UserCondition;
 import com.zhs.dto.UserDto;
 import com.zhs.entity.SysUser;
 import com.zhs.vo.UserVo;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -44,9 +46,11 @@ public interface IUserService {
 
     /**
      * 带条件查询所有
-     * @param userDto
+     * @param userCondition
      * @return
      */
-    List<UserVo> findAll(UserDto userDto);
+    List<SysUser> findAll(UserCondition userCondition);
 
+
+    Page<SysUser> findPage(UserCondition userCondition,int page,int pageSize);
 }
