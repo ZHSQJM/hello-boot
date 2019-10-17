@@ -39,7 +39,7 @@ public class RoleController {
     @GetMapping("/{id}")
     @ApiOperation(value = "获取单个角色",notes = "获取单个角色")
     public Result getUserById(@PathVariable ("id") Long id){
-
+        System.out.println();
         return Result.success();
     }
 

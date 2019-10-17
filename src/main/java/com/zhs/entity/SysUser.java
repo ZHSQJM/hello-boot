@@ -4,11 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author: zhouhuasheng
@@ -52,4 +50,20 @@ public class SysUser {
     /**更新时间*/
     @Column(nullable = false)
     private Date updateTime;
+
+
+    /**角色关联表*/
+    /**
+     * all: 所有情况下均进行关联操作，即save-update和delete。
+     * none: 所有情况下均不进行关联操作。这是默认值。
+     * save-update: 在执行save/update/saveOrUpdate时进行关联操作。
+     * delete: 在执行delete 时进行关联操作。
+     * all-delete-orphan: 当一个节点在对象图中成为孤儿节点时，删除该节点。
+     * 比如在一个一对多的关系中，Student包含多个book，当在对象关系中删除一个book时，
+     * 此book即成为孤儿节点。
+     */
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "id"))
+    private List<SysRole> roles;
 }

@@ -9,6 +9,7 @@ import com.zhs.entity.SysUser;
 import com.zhs.exception.ZhsException;
 import com.zhs.service.IRoleService;
 import com.zhs.service.IUserService;
+import com.zhs.utils.SnowflakeIdWorker;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,14 +29,18 @@ public class RoleServiceImpl implements IRoleService {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private SnowflakeIdWorker snowflakeIdWorker;
+
 
     @Override
     public void saveRole(RoleDto roleDto) {
         SysRole sysRole = new SysRole();
-        BeanUtils.copyProperties(sysRole,roleDto);
+        BeanUtils.copyProperties(roleDto,sysRole);
         sysRole.setCreateTime(new Date());
         sysRole.setUpdateTime(new Date());
         sysRole.setStatus(0);
+        sysRole.setId(snowflakeIdWorker.nextId());
         roleRepository.save(sysRole);
     }
 }

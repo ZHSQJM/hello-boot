@@ -20,8 +20,6 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class RoleDto {
 
-    private Long id;
-
     private String roleName;
 
     private String description;

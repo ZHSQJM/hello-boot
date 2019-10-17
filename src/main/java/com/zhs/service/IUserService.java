@@ -53,4 +53,12 @@ public interface IUserService {
 
 
     Page<SysUser> findPage(UserCondition userCondition,int page,int pageSize);
+
+
+    /**
+     * 给单个用户设置角色
+     * @param userId
+     * @param roleIds
+     */
+    void saveRolesByUserId(long userId,List<Long> roleIds);
 }

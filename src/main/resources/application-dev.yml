@@ -10,6 +10,15 @@ spring:
       ddl-auto: update
     show-sql: true
 
+  thymeleaf:
+    mode: HTML5
+    encoding: UTF-8
+    cache: false
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
 
 
 

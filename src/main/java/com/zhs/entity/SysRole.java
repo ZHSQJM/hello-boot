@@ -1,14 +1,15 @@
 package com.zhs.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author: zhouhuasheng
@@ -47,4 +48,13 @@ public class SysRole {
     /**更新时间*/
     @Column(nullable = false)
     private Date updateTime;
+
+    /**懒加载 不会查询role表*/
+    @ManyToMany(mappedBy = "roles",fetch = FetchType.LAZY)
+
+    /**在查询的时候会包循环 错误 栈溢出报错
+     * https://blog.csdn.net/weixin_39841589/article/details/83409835*/
+    @JsonIgnore
+    @NotFound(action = NotFoundAction.IGNORE)
+    private List<SysUser> users;
 }

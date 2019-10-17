@@ -5,6 +5,8 @@ import com.zhs.entity.SysUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author: zhouhuasheng
  * @date: 2019/10/15 15:05

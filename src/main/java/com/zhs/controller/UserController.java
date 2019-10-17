@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.awt.print.Pageable;
+import java.util.List;
 
 /**
  * @author: zhouhuasheng
@@ -55,17 +56,21 @@ public class UserController {
         return Result.success(ResultCode.SUCCESS,userService.findUserById(id));
     }
 
-
-    @GetMapping("/findAll")
+    @GetMapping("/find-all")
+    @ApiOperation(value = "根据条件获取所有的用户数据",notes = "根据条件获取所有的用户数据")
     public Result findAll( UserCondition userCondition){
         return Result.success(ResultCode.SUCCESS,userService.findAll(userCondition));
     }
 
-
-    @GetMapping("/findPage")
-    public Result findPage( UserCondition userCondition,@RequestParam(defaultValue = "1") int page,@RequestParam(defaultValue = "10")int pageSize){
-
+    @GetMapping("/find-all-page")
+    @ApiOperation(value = "根据条件获取所有的用户数据(分页)",notes = "根据条件获取所有的用户数据(分页)")
+    public Result findPage(UserCondition userCondition,@RequestParam(defaultValue = "1") int page,@RequestParam(defaultValue = "10")int pageSize){
         return Result.success(ResultCode.SUCCESS,userService.findPage(userCondition,page,pageSize));
+    }
 
+    @GetMapping("/setting-roles")
+    public Result settingRoles( @RequestParam Long userId, @RequestParam List<Long> roleIds){
+        userService.saveRolesByUserId(userId,roleIds);
+        return Result.success();
     }
 }
