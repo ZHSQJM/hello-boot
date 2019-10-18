@@ -8,6 +8,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+      naming:
+        strategy:  org.hibernate.cfg.ImprovedNamingStrategy
     show-sql: true
 
   thymeleaf:

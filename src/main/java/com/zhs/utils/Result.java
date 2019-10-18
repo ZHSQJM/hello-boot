@@ -1,4 +1,4 @@
-package com.zhs;
+package com.zhs.utils;
 
 import com.zhs.enums.ResultCode;
 import lombok.AllArgsConstructor;

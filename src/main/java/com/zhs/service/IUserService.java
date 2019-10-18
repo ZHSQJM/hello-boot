@@ -52,7 +52,7 @@ public interface IUserService {
     List<SysUser> findAll(UserCondition userCondition);
 
 
-    Page<SysUser> findPage(UserCondition userCondition,int page,int pageSize);
+    Page<UserVo> findPage(UserCondition userCondition,int page,int pageSize);
 
 
     /**
@@ -61,4 +61,6 @@ public interface IUserService {
      * @param roleIds
      */
     void saveRolesByUserId(long userId,List<Long> roleIds);
+
+
 }

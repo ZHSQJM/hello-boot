@@ -1,6 +1,6 @@
 package com.zhs.controller;
 
-import com.zhs.Result;
+import com.zhs.utils.Result;
 import com.zhs.condition.UserCondition;
 import com.zhs.dto.UserDto;
 import com.zhs.enums.ResultCode;
@@ -8,11 +8,9 @@ import com.zhs.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.awt.print.Pageable;
 import java.util.List;
 
 /**

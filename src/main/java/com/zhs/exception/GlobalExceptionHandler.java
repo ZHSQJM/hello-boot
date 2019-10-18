@@ -1,8 +1,7 @@
 package com.zhs.exception;
 
-import com.zhs.Result;
+import com.zhs.utils.Result;
 import com.zhs.enums.ResultCode;
-import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

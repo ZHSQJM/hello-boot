@@ -1,11 +1,8 @@
 package com.zhs.controller;
 
-import com.zhs.Result;
-import com.zhs.condition.UserCondition;
+import com.zhs.utils.Result;
 import com.zhs.dto.RoleDto;
-import com.zhs.dto.UserDto;
 import com.zhs.service.IRoleService;
-import com.zhs.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

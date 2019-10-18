@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -48,4 +45,12 @@ public class SysFile {
 
     /**修改时间*/
     private Date updateTime;
+
+    /**
+     * 这是开发中不会使用这种强建模
+     */
+//    /**用户实体*/
+//    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+//    @JoinColumn(name = "userId")
+//    private SysUser sysUser;
 }

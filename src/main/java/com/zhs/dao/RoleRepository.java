@@ -1,8 +1,8 @@
 package com.zhs.dao;
 
 import com.zhs.entity.SysRole;
-import com.zhs.entity.SysUser;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  * @version: 1.0
  */
 @Repository
-public interface RoleRepository extends JpaRepository<SysRole,Long> {
+public interface RoleRepository extends JpaRepository<SysRole, Long>, QuerydslPredicateExecutor<SysRole> {
 
 
 
