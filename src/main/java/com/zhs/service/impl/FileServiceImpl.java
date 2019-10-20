@@ -5,10 +5,13 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.zhs.condition.FileCondition;
 import com.zhs.dao.FileRepository;
+import com.zhs.dao.UserRepository;
 import com.zhs.dto.FileDto;
 import com.zhs.entity.QSysFile;
 import com.zhs.entity.QSysUser;
 import com.zhs.entity.SysFile;
+import com.zhs.entity.SysUser;
+import com.zhs.exception.ZhsException;
 import com.zhs.service.IFileService;
 import com.zhs.utils.SnowflakeIdWorker;
 import com.zhs.vo.FileVo;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -35,6 +39,10 @@ public class FileServiceImpl implements IFileService {
     @Autowired
     private FileRepository fileRepository;
 
+
+    @Autowired
+    private UserRepository userRepository;
+
     @Autowired
     private JPAQueryFactory jpaQueryFactory;
 
@@ -42,7 +50,12 @@ public class FileServiceImpl implements IFileService {
     private SnowflakeIdWorker snowflakeIdWorker;
 
     @Override
-    public void saveUser(FileDto fileDto) {
+    public void saveFile(FileDto fileDto) {
+
+        Optional<SysUser> optional = userRepository.findById(fileDto.getUserId());
+        if(!optional.isPresent()){
+            throw new ZhsException("请输入正确的用户ID");
+        }
         SysFile sysFile = new SysFile();
         BeanUtils.copyProperties(fileDto,sysFile);
         sysFile.setId(snowflakeIdWorker.nextId());
