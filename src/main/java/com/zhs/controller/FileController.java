@@ -30,7 +30,7 @@ public class FileController {
     @PostMapping
     @ApiOperation(value = "新增文件",notes = "新增文件")
     public Result add(@RequestBody @Valid FileDto fileDto){
-        fileService.saveUser(fileDto);
+        fileService.saveFile(fileDto);
         return Result.success();
     }
 

@@ -21,7 +21,7 @@ public interface IFileService {
      * 保存文件
      * @param fileDto
      */
-    void saveUser(FileDto fileDto);
+    void saveFile(FileDto fileDto);
 
 
     /**
