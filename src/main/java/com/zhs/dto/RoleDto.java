@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author: zhouhuasheng
@@ -20,7 +21,9 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class RoleDto {
 
+    @NotNull(message = "用户名不能为空")
     private String roleName;
 
+    @NotNull(message = "描述不能为空")
     private String description;
 }

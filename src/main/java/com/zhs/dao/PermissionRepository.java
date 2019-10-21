@@ -3,6 +3,7 @@ package com.zhs.dao;
 import com.zhs.entity.SysPermission;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 /**
  * @author: zhouhuasheng
@@ -10,5 +11,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  * @Description:
  * @version: 1.0
  */
-public interface PermissionRepository extends JpaRepository<SysPermission,Long>, JpaSpecificationExecutor<SysPermission> {
+public interface PermissionRepository extends JpaRepository<SysPermission,Long>, JpaSpecificationExecutor<SysPermission> , QuerydslPredicateExecutor<SysPermission> {
 }
