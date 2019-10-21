@@ -46,6 +46,10 @@ public class SysFile {
     /**修改时间*/
     private Date updateTime;
 
+
+    /**账号状态  0 正常  1 异常  2 删除*/
+    @Column(nullable = false,length = 1)
+    private Integer status;
     /**
      * 这是开发中不会使用这种强建模
      */
