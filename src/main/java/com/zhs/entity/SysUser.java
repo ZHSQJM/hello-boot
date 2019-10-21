@@ -32,7 +32,7 @@ public class SysUser {
     private String userName;
 
     /**密码*/
-    @Column(nullable = false,unique = true,length = 32)
+    @Column(nullable = false,length = 32)
     private String password;
 
     /**性别 0 男  1 女  2 未知*/
