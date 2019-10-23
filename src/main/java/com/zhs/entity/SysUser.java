@@ -3,8 +3,12 @@ package com.zhs.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -17,10 +21,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "tb_sys_user")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class SysUser {
+//@Data
+//@AllArgsConstructor
+//@NoArgsConstructor
+public class SysUser implements UserDetails, Serializable {
 
     /**主键*/
     @Id
@@ -29,7 +33,7 @@ public class SysUser {
 
     /**用户名*/
     @Column(nullable = false,unique = true,length = 32)
-    private String userName;
+    private String username;
 
     /**密码*/
     @Column(nullable = false,length = 32)
@@ -65,5 +69,95 @@ public class SysUser {
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "id"))
-    private List<SysRole> roles;
+    private List<SysRole> authoristies;
+
+
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Integer getSex() {
+        return sex;
+    }
+
+    public void setSex(Integer sex) {
+        this.sex = sex;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authoristies;
+    }
+
+    public void setAuthoristies(List<SysRole> authoristies) {
+        this.authoristies = authoristies;
+    }
 }

@@ -12,24 +12,21 @@ import com.zhs.entity.SysRole;
 import com.zhs.entity.SysUser;
 import com.zhs.exception.ZhsException;
 import com.zhs.service.IUserService;
-import com.zhs.utils.MapObjUtil;
 import com.zhs.utils.SnowflakeIdWorker;
 import com.zhs.vo.UserVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,7 +37,7 @@ import java.util.stream.Collectors;
  * @version: 1.0
  */
 @Service(value = "userService")
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements IUserService, UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
@@ -57,12 +54,12 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public SysUser findUserByUserName(String userName) {
-        return userRepository.findSysUserByUserName(userName);
+        return userRepository.findSysUserByUsername(userName);
     }
 
     @Override
     public void saveUser(UserDto userDto) {
-        SysUser sysUserByUserName = userRepository.findSysUserByUserName(userDto.getUserName());
+        SysUser sysUserByUserName = userRepository.findSysUserByUsername(userDto.getUsername());
         if(sysUserByUserName!=null){
             throw  new ZhsException("用户名已存在");
         }
@@ -126,7 +123,7 @@ public class UserServiceImpl implements IUserService {
         com.querydsl.core.types.Predicate predicate = sysUser.isNotNull().or(sysUser.isNull());
         //执行动态条件拼装
         //执行动态条件拼装
-        predicate = userCondition.getUserName() == null ? predicate : ExpressionUtils.and(predicate, sysUser.userName.like("%"+userCondition.getUserName()+"%"));
+        predicate = userCondition.getUserName() == null ? predicate : ExpressionUtils.and(predicate, sysUser.username.like("%"+userCondition.getUserName()+"%"));
         predicate = userCondition.getStatus() == null ? predicate : ExpressionUtils.and(predicate, sysUser.status.eq(userCondition.getStatus()));
         Pageable pageable = PageRequest.of(page-1,pageSize);
         //直接返回
@@ -135,16 +132,16 @@ public class UserServiceImpl implements IUserService {
                 //投影只去部分字段
                 .select(
                         sysUser.id,
-                        sysUser.userName,
+                        sysUser.username,
                         sysUser.sex,
                         sysUser.status,
                         sysUser.createTime,
                         sysUser.updateTime,
-                        sysRole.roleName
+                        sysRole.name
                 )
                 .from(sysUser)
                 //联合查询
-                .join(sysUser.roles, sysRole)
+                .join(sysUser.authoristies, sysRole)
                 .where(predicate)
                 .fetch()
                 //lambda开始
@@ -153,14 +150,14 @@ public class UserServiceImpl implements IUserService {
                         //需要做类型转换，所以使用map函数非常适合
                         UserVo.builder()
                                 .id(tuple.get(sysUser.id))
-                                .userName(tuple.get(sysUser.userName))
+                                .username(tuple.get(sysUser.username))
                                 .sex(tuple.get(sysUser.sex))
                                 .status(tuple.get(sysUser.status))
                                 .sex(tuple.get(sysUser.sex))
                                 .sex(tuple.get(sysUser.sex))
                                 .createTime(tuple.get(sysUser.createTime))
                                 .updateTime(tuple.get(sysUser.updateTime))
-                                .roleName(tuple.get(sysRole.roleName))
+                                .roleName(tuple.get(sysRole.name))
                                 .build()
                 )
                 .collect(Collectors.toList());
@@ -178,7 +175,7 @@ public class UserServiceImpl implements IUserService {
         }
 
         List<SysRole> roles = roleRepository.findAllById(roleIds);
-        sysUser.setRoles(roles);
+        sysUser.setAuthoristies(roles);
 
         userRepository.save(sysUser);
     }
@@ -187,9 +184,9 @@ public class UserServiceImpl implements IUserService {
     public Specification getSpecification(SysUser sysUser){
        return (a,b,c)-> {
            List<Predicate> list = new ArrayList<>(16);
-           if (sysUser.getUserName() != null && !"".equals(sysUser.getUserName())) {
+           if (sysUser.getUsername() != null && !"".equals(sysUser.getUsername())) {
                //用户名模糊查询
-               Predicate predicate = c.like(a.get("userName").as(String.class), "%" + sysUser.getUserName() + "%");
+               Predicate predicate = c.like(a.get("userName").as(String.class), "%" + sysUser.getUsername() + "%");
                list.add(predicate);
            }
            if (sysUser.getStatus() != null && !"".equals(sysUser.getStatus())) {
@@ -205,6 +202,10 @@ public class UserServiceImpl implements IUserService {
 
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findSysUserByUsername(username);
+    }
 }
 
 

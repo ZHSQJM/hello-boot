@@ -22,7 +22,7 @@ import javax.validation.constraints.NotNull;
 public class RoleDto {
 
     @NotNull(message = "用户名不能为空")
-    private String roleName;
+    private String name;
 
     @NotNull(message = "描述不能为空")
     private String description;

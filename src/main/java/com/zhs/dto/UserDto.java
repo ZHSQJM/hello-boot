@@ -22,7 +22,7 @@ public class UserDto {
     private  Long id;
 
     @NotNull(message = "用户名不能为空")
-    private String userName;
+    private String username;
 
     @Length(min=8,message = "密码长度不能少于8")
     private String password;

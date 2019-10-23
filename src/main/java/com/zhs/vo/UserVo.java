@@ -24,7 +24,7 @@ public class UserVo {
     private Long id;
 
     /**用户名*/
-    private String userName;
+    private String username;
 
     /**性别 0 男  1 女  2 未知*/
     private Integer sex;

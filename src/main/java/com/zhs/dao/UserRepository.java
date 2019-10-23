@@ -23,7 +23,7 @@ import java.util.Map;
 public interface UserRepository extends JpaRepository<SysUser,Long>, JpaSpecificationExecutor<SysUser>, QuerydslPredicateExecutor<SysUser> {
 
 
-    SysUser findSysUserByUserName(String userName);
+    SysUser findSysUserByUsername(String userName);
 
 
     /**

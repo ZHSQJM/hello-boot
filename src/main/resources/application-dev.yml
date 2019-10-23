@@ -52,8 +52,3 @@ management:
     shutdown:
       enabled: false
 
-
-
-
-server:
-  port: 8080

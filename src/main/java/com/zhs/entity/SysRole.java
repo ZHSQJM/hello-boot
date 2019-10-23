@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -22,7 +23,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SysRole {
+public class SysRole implements GrantedAuthority {
+
+
 
     /**主键*/
     @Id
@@ -31,7 +34,7 @@ public class SysRole {
 
     /**角色名称*/
     @Column(nullable = false,unique = true,length = 255)
-    private String roleName;
+    private String name;
 
     /**角色描述*/
     @Column(nullable = false,unique = true,length = 255)
@@ -50,11 +53,16 @@ public class SysRole {
     private Date updateTime;
 
     /**懒加载 不会查询role表*/
-    @ManyToMany(mappedBy = "roles",fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "authoristies",fetch = FetchType.LAZY)
 
     /**在查询的时候会包循环 错误 栈溢出报错
      * https://blog.csdn.net/weixin_39841589/article/details/83409835*/
     @JsonIgnore
     @NotFound(action = NotFoundAction.IGNORE)
     private List<SysUser> users;
+
+    @Override
+    public String getAuthority() {
+        return name;
+    }
 }

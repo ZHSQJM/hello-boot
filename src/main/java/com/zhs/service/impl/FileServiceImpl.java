@@ -87,7 +87,7 @@ public class FileServiceImpl implements IFileService {
                         sysFile.fileSize,
                         sysFile.type,
                         sysFile.url,
-                        sysUser.userName,
+                        sysUser.username,
                         sysFile.createTime,
                         sysFile.updateTime
                 )
@@ -108,7 +108,7 @@ public class FileServiceImpl implements IFileService {
                         .fileSize(tuple.get(sysFile.fileSize))
                         .type(tuple.get(sysFile.type))
                         .url(tuple.get(sysFile.url))
-                        .userName(tuple.get(sysUser.userName))
+                        .userName(tuple.get(sysUser.username))
                         .createTime(tuple.get(sysFile.createTime))
                         .updateTime(tuple.get(sysFile.updateTime))
                         .build()

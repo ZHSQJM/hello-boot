@@ -67,6 +67,7 @@ public class UserController {
     }
 
     @GetMapping("/setting-roles")
+    @ApiOperation(value = "给用户分配角色",notes = "给用户分配角色")
     public Result settingRoles( @RequestParam Long userId, @RequestParam List<Long> roleIds){
         userService.saveRolesByUserId(userId,roleIds);
         return Result.success();
