@@ -17,6 +17,9 @@ import com.zhs.utils.SnowflakeIdWorker;
 import com.zhs.vo.FileVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +37,7 @@ import java.util.stream.Collectors;
  * @version: 1.0
  */
 @Service
+@CacheConfig(cacheNames = "file")
 public class FileServiceImpl implements IFileService {
 
     @Autowired
@@ -50,6 +54,7 @@ public class FileServiceImpl implements IFileService {
     private SnowflakeIdWorker snowflakeIdWorker;
 
     @Override
+    @CachePut()
     public void saveFile(FileDto fileDto) {
 
         Optional<SysUser> optional = userRepository.findById(fileDto.getUserId());
@@ -70,9 +75,9 @@ public class FileServiceImpl implements IFileService {
      * @return
      */
     @Override
+    @Cacheable(key = "#fileConfition.userId",unless="#result == null",condition="#fileConfition.userId==null")
     public List<FileVo> findAll(FileCondition fileConfition) {
         QSysFile sysFile = QSysFile.sysFile;
-
         QSysUser sysUser = QSysUser.sysUser;
         //初始化组装条件(类似where 1=1)
         Predicate predicate = sysFile.isNotNull().or(sysFile.isNull());
@@ -118,6 +123,7 @@ public class FileServiceImpl implements IFileService {
     }
 
     @Override
+    @Cacheable(cacheNames = "list", key = "list")
     public Page<SysFile> findAllPage(FileCondition fileCondition, int page, int pageSize) {
         QSysFile sysFile = QSysFile.sysFile;
         //初始化组装条件(类似where 1=1)
@@ -129,6 +135,15 @@ public class FileServiceImpl implements IFileService {
         predicate = fileCondition.getType() == null ? predicate : ExpressionUtils.and(predicate, sysFile.type.eq(fileCondition.getType()));
         Pageable pageable = PageRequest.of(page-1,pageSize);
         return  fileRepository.findAll(predicate, pageable);
+    }
+
+    @Override
+    @Cacheable(key = "#id",unless="#result == null")
+    public FileVo getFileById(Long id) {
+        FileVo fileVo = new FileVo();
+        final SysFile sysFile = fileRepository.getOne(id);
+        BeanUtils.copyProperties(fileVo,sysFile);
+        return fileVo;
     }
 
 }

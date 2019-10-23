@@ -40,4 +40,8 @@ public interface IFileService {
      * @return
      */
     Page<SysFile> findAllPage(FileCondition fileCondition,int page,int pageSize);
+
+
+
+    FileVo getFileById(Long id);
 }

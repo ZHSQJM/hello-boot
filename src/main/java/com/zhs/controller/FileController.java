@@ -34,7 +34,11 @@ public class FileController {
         return Result.success();
     }
 
-
+    @GetMapping("{id}")
+    @ApiOperation(value = "获取单个文件",notes = "获取单个文件")
+    public Result getOne(@PathVariable("id") Long id){
+        return Result.success(fileService.getFileById(id));
+    }
     @GetMapping("/find-all")
     @ApiOperation(value = "根据条件获取所有的文件数据",notes = "根据条件获取所有的文件数据")
     public Result findAll( FileCondition fileCondition){
