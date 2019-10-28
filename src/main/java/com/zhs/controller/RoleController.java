@@ -1,5 +1,8 @@
 package com.zhs.controller;
 
+import com.zhs.condition.RoleCondition;
+import com.zhs.condition.UserCondition;
+import com.zhs.enums.ResultCode;
 import com.zhs.utils.Result;
 import com.zhs.dto.RoleDto;
 import com.zhs.service.IRoleService;
@@ -41,4 +44,9 @@ public class RoleController {
     }
 
 
+    @GetMapping("/find-all-page")
+    @ApiOperation(value = "根据条件获取所有的用户数据(分页)",notes = "根据条件获取所有的用户数据(分页)")
+    public Result findPage(RoleCondition roleCondition, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10")int pageSize){
+        return Result.success(ResultCode.SUCCESS,roleService.findPage(roleCondition,page,pageSize));
+    }
 }

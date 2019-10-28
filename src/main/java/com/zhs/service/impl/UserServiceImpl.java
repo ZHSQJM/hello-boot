@@ -13,6 +13,7 @@ import com.zhs.entity.SysUser;
 import com.zhs.exception.ZhsException;
 import com.zhs.service.IUserService;
 import com.zhs.utils.SnowflakeIdWorker;
+import com.zhs.vo.PageVo;
 import com.zhs.vo.UserVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ import java.util.stream.Collectors;
  * @version: 1.0
  */
 @Service(value = "userService")
-public class UserServiceImpl implements IUserService, UserDetailsService {
+public class UserServiceImpl implements IUserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -115,7 +116,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     }
 
     @Override
-    public Page<UserVo> findPage(UserCondition userCondition, int page, int pageSize) {
+    public PageVo<UserVo> findPage(UserCondition userCondition, int page, int pageSize) {
         QSysUser sysUser = QSysUser.sysUser;
         QSysRole sysRole = QSysRole.sysRole;
 
@@ -141,7 +142,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
                 )
                 .from(sysUser)
                 //联合查询
-                .join(sysUser.authoristies, sysRole)
+                .join(sysUser.roles, sysRole)
                 .where(predicate)
                 .fetch()
                 //lambda开始
@@ -161,8 +162,8 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
                                 .build()
                 )
                 .collect(Collectors.toList());
-
-        return new PageImpl<>(collect, pageable, collect.size());
+        PageImpl<UserVo> userVos = new PageImpl<>(collect, pageable, collect.size());
+        return  new PageVo(userVos.getTotalPages(),userVos.getContent());
     }
 
     @Override
@@ -175,7 +176,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         }
 
         List<SysRole> roles = roleRepository.findAllById(roleIds);
-        sysUser.setAuthoristies(roles);
+        sysUser.setRoles(roles);
 
         userRepository.save(sysUser);
     }
@@ -202,10 +203,6 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findSysUserByUsername(username);
-    }
 }
 
 

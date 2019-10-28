@@ -3,6 +3,7 @@ package com.zhs.service;
 import com.zhs.condition.UserCondition;
 import com.zhs.dto.UserDto;
 import com.zhs.entity.SysUser;
+import com.zhs.vo.PageVo;
 import com.zhs.vo.UserVo;
 import org.springframework.data.domain.Page;
 
@@ -52,7 +53,8 @@ public interface IUserService {
     List<SysUser> findAll(UserCondition userCondition);
 
 
-    Page<UserVo> findPage(UserCondition userCondition,int page,int pageSize);
+
+    PageVo findPage(UserCondition userCondition, int page, int pageSize);
 
 
     /**

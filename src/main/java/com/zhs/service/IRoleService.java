@@ -1,8 +1,12 @@
 package com.zhs.service;
 
+import com.zhs.condition.RoleCondition;
 import com.zhs.dto.RoleDto;
 import com.zhs.dto.UserDto;
 import com.zhs.entity.SysUser;
+import com.zhs.vo.PageVo;
+import com.zhs.vo.RoleVo;
+import org.springframework.data.domain.Page;
 
 /**
  * @author: zhouhuasheng
@@ -13,4 +17,6 @@ import com.zhs.entity.SysUser;
 public interface IRoleService {
 
     void saveRole(RoleDto roleDto);
+
+    PageVo<RoleVo> findPage(RoleCondition roleCondition, int page, int pageSize);
 }

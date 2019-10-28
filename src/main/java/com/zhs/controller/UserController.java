@@ -21,6 +21,7 @@ import java.util.List;
  */
 @Api(description = "用户的API接口")
 @RestController
+@CrossOrigin
 @RequestMapping("/v1/api/user")
 public class UserController {
 
@@ -53,6 +54,7 @@ public class UserController {
     public Result getUserById(@PathVariable(name = "id") Long id){
         return Result.success(ResultCode.SUCCESS,userService.findUserById(id));
     }
+
 
     @GetMapping("/find-all")
     @ApiOperation(value = "根据条件获取所有的用户数据",notes = "根据条件获取所有的用户数据")
