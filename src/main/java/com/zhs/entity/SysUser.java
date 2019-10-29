@@ -68,7 +68,7 @@ public class SysUser implements  Serializable {
      * 比如在一个一对多的关系中，Student包含多个book，当在对象关系中删除一个book时，
      * 此book即成为孤儿节点。
      */
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "id"))
     private List<SysRole> roles;

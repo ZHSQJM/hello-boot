@@ -17,6 +17,10 @@ import com.zhs.vo.PageVo;
 import com.zhs.vo.UserVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -38,6 +42,7 @@ import java.util.stream.Collectors;
  * @version: 1.0
  */
 @Service(value = "userService")
+@CacheConfig(cacheNames = "user")
 public class UserServiceImpl implements IUserService {
 
     @Autowired
@@ -54,11 +59,13 @@ public class UserServiceImpl implements IUserService {
 
 
     @Override
+    @Cacheable(key = "#p0",unless="#result == null")
     public SysUser findUserByUserName(String userName) {
         return userRepository.findSysUserByUsername(userName);
     }
 
     @Override
+    @CacheEvict(key = "list")
     public void saveUser(UserDto userDto) {
         SysUser sysUserByUserName = userRepository.findSysUserByUsername(userDto.getUsername());
         if(sysUserByUserName!=null){
@@ -74,6 +81,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    @CacheEvict(key = "#p0")
     public void deleteUser(Long id) {
         Optional<SysUser> optional = userRepository.findById(id);
         SysUser sysUser = optional.isPresent()? optional.get():null;
@@ -86,6 +94,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    @CachePut(key = "#p0")
     public void updateUser(UserDto userDto) {
       if(userDto.getId()==null){
           throw new ZhsException("请传入需要修改的用户");
@@ -100,6 +109,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    @Cacheable(key = "#p0",unless="#result==null")
     public UserVo findUserById(Long id) {
         UserVo userVo = new UserVo();
         Optional<SysUser> optional = userRepository.findById(id);

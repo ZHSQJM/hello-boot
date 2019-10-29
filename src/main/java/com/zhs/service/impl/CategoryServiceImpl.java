@@ -14,6 +14,8 @@ import com.zhs.vo.UserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -33,6 +35,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
+@CacheConfig(cacheNames = "category")
 public class CategoryServiceImpl implements ICategoryService {
 
 
@@ -46,6 +49,7 @@ public class CategoryServiceImpl implements ICategoryService {
     private SnowflakeIdWorker snowflakeIdWorker;
 
     @Override
+    @Cacheable(key = "list")
     public void saveCategory(CategoryDto categoryDto) {
         Category category = new Category();
         BeanUtils.copyProperties(categoryDto,category);
@@ -57,6 +61,7 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
     @Override
+    @Cacheable(key = "list",unless="#result == null")
     public List<CategoryVo> findAll() {
 
         /**获取有效的类目*/
