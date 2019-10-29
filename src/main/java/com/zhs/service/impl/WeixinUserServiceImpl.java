@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * @author: zhouhuasheng
@@ -34,6 +35,12 @@ public class WeixinUserServiceImpl implements IWeixinUserService {
         weixinUser.setRecentlyTime(new Date());
         weixinUser.setIntegral(100);
         weixinUserReposotory.save(weixinUser);
+    }
+
+    @Override
+    public WeiXinUser findUserByOpenId(String openId) {
+        Optional<WeiXinUser> optionalWeiXinUser = weixinUserReposotory.findById(openId);
+        return optionalWeiXinUser.isPresent()?optionalWeiXinUser.get():null;
     }
 
 

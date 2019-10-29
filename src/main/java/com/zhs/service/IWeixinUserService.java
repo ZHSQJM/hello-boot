@@ -1,6 +1,7 @@
 package com.zhs.service;
 
 import com.zhs.dto.WeixinUserDto;
+import com.zhs.entity.WeiXinUser;
 
 /**
  * @author: zhouhuasheng
@@ -13,4 +14,7 @@ public interface IWeixinUserService {
 
 
     void add(WeixinUserDto weixinUserDto);
+
+
+    WeiXinUser findUserByOpenId(String openId);
 }

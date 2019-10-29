@@ -31,7 +31,7 @@ public class WeiXinUser {
     private String openId;
 
     /**头像地址*/
-    private String avarlUrl;
+    private String avatarUrl;
 
     /**第一次登陆时间*/
     private Date createTime;
@@ -41,4 +41,10 @@ public class WeiXinUser {
 
     /**个人积分*/
     private Integer integral;
+
+    private Integer gender;
+
+    private String nickName;
+
+    private String province;
 }

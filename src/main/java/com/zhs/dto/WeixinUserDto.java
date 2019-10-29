@@ -17,10 +17,19 @@ import lombok.NoArgsConstructor;
 public class WeixinUserDto {
 
 
+    private String code;
     /**微信用户的openId*/
     private String openId;
 
     /**头像地址*/
-    private String avarlUrl;
+    private String avatarUrl;
+
+    private Integer gender;
+
+    private String nickName;
+
+    private String province;
+
+
 
 }
