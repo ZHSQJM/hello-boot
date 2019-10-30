@@ -25,4 +25,6 @@ public class CategoryVo {
     private String name;
 
     private List<Resource> list;
+
+    private String icon;
 }

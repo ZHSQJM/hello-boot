@@ -49,7 +49,6 @@ public class CategoryServiceImpl implements ICategoryService {
     private SnowflakeIdWorker snowflakeIdWorker;
 
     @Override
-    @Cacheable(key = "list")
     public void saveCategory(CategoryDto categoryDto) {
         Category category = new Category();
         BeanUtils.copyProperties(categoryDto,category);
@@ -61,7 +60,6 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
     @Override
-    @Cacheable(key = "list",unless="#result == null")
     public List<CategoryVo> findAll() {
 
         /**获取有效的类目*/
@@ -72,9 +70,10 @@ public class CategoryServiceImpl implements ICategoryService {
             CategoryVo categoryVo = new CategoryVo();
             categoryVo.setId(e.getId());
             categoryVo.setName(e.getName());
+            categoryVo.setIcon(e.getIcon());
             /**获取有效的资源*/
             List<Resource> allByCategoryType = resourceRepository.findAllByCategoryTypeAndStatus(e.getId(),0);
-            categoryVo.setList(allByCategoryType);
+            //categoryVo.setList(allByCategoryType);
             vos.add(categoryVo);
         });
         return vos;

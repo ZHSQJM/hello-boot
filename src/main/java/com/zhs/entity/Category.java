@@ -39,6 +39,8 @@ public class Category {
     private String description;
 
 
+    private String icon;
+
     private Integer status;
 
     /**创建时间**/

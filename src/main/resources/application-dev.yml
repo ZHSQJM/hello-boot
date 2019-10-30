@@ -21,6 +21,11 @@ spring:
     host: 127.0.0.1
     port: 6379
 
+upload:
+    dir: D://meet//
+    host: localhost:8002/
+    url: image/
+
 
 
 

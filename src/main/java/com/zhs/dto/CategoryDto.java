@@ -25,4 +25,6 @@ public class CategoryDto {
 
     /**描述**/
     private String description;
+
+    private String icon;
 }
