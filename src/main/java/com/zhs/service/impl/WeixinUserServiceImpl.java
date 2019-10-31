@@ -38,6 +38,15 @@ public class WeixinUserServiceImpl implements IWeixinUserService {
     }
 
     @Override
+    public void update(WeixinUserDto weixinUserDto) {
+        WeiXinUser weixinUser = new WeiXinUser();
+        BeanUtils.copyProperties(weixinUserDto,weixinUser);
+        weixinUser.setRecentlyTime(new Date());
+        weixinUserReposotory.save(weixinUser);
+
+    }
+
+    @Override
     public WeiXinUser findUserByOpenId(String openId) {
         Optional<WeiXinUser> optionalWeiXinUser = weixinUserReposotory.findById(openId);
         return optionalWeiXinUser.isPresent()?optionalWeiXinUser.get():null;

@@ -43,7 +43,7 @@ public class WeiXinController {
         //https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code
 
 
-       log.info("code"+weixinUserDto.getCode());
+        log.info("code"+weixinUserDto.getCode());
         String url = "https://api.weixin.qq.com/sns/jscode2session";
         Map<String,String> param = new HashMap<>(10);
         param.put("appid","wxd1d22bfc46b95204");
@@ -52,20 +52,18 @@ public class WeiXinController {
         param.put("grant_type","authorization_code");
         String wxResult = HttpClientUtil.doGet(url, param);
 
-
         SessionUser sessionUser = JsonUtils.jsonToPojo(wxResult, SessionUser.class);
 
+        WeiXinUser userByOpenId = weixinUserService.findUserByOpenId(sessionUser.getOpenid());
 
-        weixinUserDto.setOpenId(sessionUser.getOpenid());
-
-        weixinUserService.add(weixinUserDto);
+        if(userByOpenId!=null){
+            weixinUserService.update(weixinUserDto);
+        }else {
+            weixinUserDto.setOpenId(sessionUser.getOpenid());
+            weixinUserService.add(weixinUserDto);
+        }
         log.info("wxResult"+wxResult);
         return Result.success();
     }
-    @PostMapping
-    @ApiOperation(value = "新增微信用户",notes = "新增微信用户")
-    public Result add(@RequestBody @Valid WeixinUserDto weixinUserDto){
-        weixinUserService.add(weixinUserDto);
-        return Result.success();
-    }
+
 }
