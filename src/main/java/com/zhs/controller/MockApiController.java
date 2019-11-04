@@ -47,13 +47,13 @@ public class MockApiController {
 
     @GetMapping("/classic/{id}/next")
     @ApiOperation(value = "获取当前一期的下一期",notes = "获取当前一期的下一期")
-    public Result next(@PathVariable("id") Integer id){
+    public Result next(@PathVariable("id") String id){
         Map map = new HashMap<>(10);
         map.put("content","这个夏天又是一个毕业季");
         map.put("fav_nums",0);
         map.put("id",2);
         map.put("image","http://img2.imgtn.bdimg.com/it/u=2708495562,4008897354&fm=26&gp=0.jpg");
-        map.put("index",2);
+        map.put("index",1);
         map.put("like_status",0);
         map.put("pubdate","2018-06-22");
         map.put("title","未名");
@@ -64,7 +64,7 @@ public class MockApiController {
 
     @GetMapping("/classic/{type}/{id}")
     @ApiOperation(value = "获取某一期详细信息",notes = "获取某一期详细信息")
-    public Result next(@PathVariable("type") Integer type,@PathVariable("id") Integer id){
+    public Result next(@PathVariable("type") Integer type,@PathVariable("id") String id){
         Map map = new HashMap<>(10);
         map.put("content","这个夏天又是一个毕业季1");
         map.put("fav_nums",0);
@@ -81,18 +81,18 @@ public class MockApiController {
 
     @GetMapping("/classic/{id}/previous")
     @ApiOperation(value = "获取当前一期的上一期",notes = "获取当前一期的上一期")
-    public Result previous(@PathVariable("id") Integer id){
+    public Result previous(@PathVariable("id") String id){
         Map map = new HashMap<>(10);
         map.put("content","你陪我步入蝉夏 越过城市喧嚣");
         map.put("fav_nums",0);
         map.put("id",3);
         map.put("image","http://img4.imgtn.bdimg.com/it/u=2638839895,2846473351&fm=26&gp=0.jpg");
-        map.put("index",1);
+        map.put("index",3);
         map.put("like_status",0);
         map.put("pubdate","2018-06-22");
         map.put("title","纸短情长");
         map.put("type",200);
-        map.put("url","http://music.163.com/song/media/outer/url?id=557581284.mp3");
+        map.put("url","http://sc1.111ttt.cn/2018/1/03/13/396131232171.mp3");
         return Result.success(map);
     }
 
