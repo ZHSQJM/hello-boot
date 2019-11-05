@@ -163,7 +163,70 @@ public class MockApiController {
         map3.put("like_status",1);
         map3.put("title","Dive Into Python 3");
 
-        list.add(map1); list.add(map2); list.add(map3);
+        Map map4 = new HashMap<>(10);
+        map4.put("author","MarkPilgrim");
+        map4.put("fav_nums",1);
+        map4.put("id",1);
+        map4.put("image","https://img3.doubanio.com/lpic/s3435132.jpg");
+        map4.put("like_status",1);
+        map4.put("title","Dive Into Python 3");
+
+
+        Map map5 = new HashMap<>(10);
+        map5.put("author","MarkPilgrim");
+        map5.put("fav_nums",1);
+        map5.put("id",1);
+        map5.put("image","https://img3.doubanio.com/lpic/s3435132.jpg");
+        map5.put("like_status",1);
+        map5.put("title","Dive Into Python 3");
+
+
+        Map map6 = new HashMap<>(10);
+        map6.put("author","MarkPilgrim");
+        map6.put("fav_nums",1);
+        map6.put("id",1);
+        map6.put("image","https://img3.doubanio.com/lpic/s3435132.jpg");
+        map6.put("like_status",1);
+        map6.put("title","Dive Into Python 3");
+
+
+        Map map7 = new HashMap<>(10);
+        map7.put("author","MarkPilgrim");
+        map7.put("fav_nums",1);
+        map7.put("id",1);
+        map7.put("image","https://img3.doubanio.com/lpic/s3435132.jpg");
+        map7.put("like_status",1);
+        map7.put("title","Dive Into Python 3");
+
+
+        Map map8 = new HashMap<>(10);
+        map8.put("author","MarkPilgrim");
+        map8.put("fav_nums",1);
+        map8.put("id",1);
+        map8.put("image","https://img3.doubanio.com/lpic/s3435132.jpg");
+        map8.put("like_status",1);
+        map8.put("title","Dive Into Python 3");
+
+        list.add(map1); list.add(map2); list.add(map3);list.add(map4);list.add(map5);list.add(map6);list.add(map7);list.add(map8);
         return Result.success(list);
+    }
+
+    @GetMapping("/book/favor/count")
+    @ApiOperation(value = "获取喜欢书籍数量",notes = "获取喜欢书籍数量")
+    public Result favorCount(){
+        Map map1 = new HashMap<>(10);
+        map1.put("count",10);
+        return Result.success(map1);
+    }
+
+
+    @GetMapping("/book/{id}/favor")
+    @ApiOperation(value = "获取书籍点赞情况",notes = "获取书籍点赞情况")
+    public Result favor(@PathVariable("id") Integer id){
+        Map map1 = new HashMap<>(10);
+        map1.put("fav_nums",0);
+        map1.put("id",1);
+        map1.put("like_status",0);
+        return Result.success(map1);
     }
 }
