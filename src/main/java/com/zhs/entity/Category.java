@@ -38,6 +38,9 @@ public class Category {
     @Column(length = 255)
     private String description;
 
+    /**图标*/
+    @Column(length = 255)
+    private String url;
 
     private Integer status;
 
