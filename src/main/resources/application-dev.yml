@@ -26,7 +26,11 @@ spring:
 
 
 
-
+oss:
+  endpoint: oss-cn-beijing.aliyuncs.com
+  accessKeyId: LTAI6EW8bTwlXoZD
+  bucketName: coderman
+  accessKeySecret: p0zpokgzi3LrIuEu82lxYx0jNo5OLU
 
 
 
