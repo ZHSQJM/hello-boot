@@ -2,18 +2,18 @@ package com.zhs.controller;
 
 import com.zhs.dto.CategoryDto;
 import com.zhs.dto.ResourceDto;
+import com.zhs.entity.Resource;
 import com.zhs.service.IResourceService;
 import com.zhs.utils.Result;
+import com.zhs.vo.ResourceVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author: zhouhuasheng
@@ -36,5 +36,27 @@ public class ResourceController {
     public Result add(@RequestBody @Valid ResourceDto resourceDto){
         resourceService.saveResource(resourceDto);
         return Result.success();
+    }
+
+    @GetMapping("resource-by-category-id/{id}")
+    @ApiOperation(value = "根据类型获取资源",notes = "根据类型获取资源")
+    public Result getResourceByCategoryId(@PathVariable("id") Long id,Integer status){
+       List<Resource> list = resourceService.getResourceByCategoryId(id,status);
+        System.out.println(list.size()+"=");
+        return Result.success(list);
+    }
+
+
+    @GetMapping("get-detail/{id}")
+    @ApiOperation(value = "根据类型获取资源",notes = "根据类型获取资源")
+    public Result getdetail(@PathVariable("id") Long id){
+        ResourceVo resourceVo = resourceService.getdetail(id);
+        return Result.success(resourceVo);
+    }
+    @GetMapping("get-resource")
+    @ApiOperation(value = "根据openID获取资源",notes = "根据openID获取资源")
+    public Result getResourceByOpenId(@RequestParam(required = true,name = "openId") String openId,Integer status){
+        List<ResourceVo> list = resourceService.getResourceByOpenId(openId,status);
+        return Result.success(list);
     }
 }

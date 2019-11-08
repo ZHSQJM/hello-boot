@@ -40,7 +40,10 @@ public class Category {
 
     /**图标*/
     @Column(length = 255)
-    private String url;
+    private String icon;
+
+    @Column(length = 255)
+    private String color;
 
     private Integer status;
 

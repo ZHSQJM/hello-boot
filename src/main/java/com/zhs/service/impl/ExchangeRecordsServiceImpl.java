@@ -1,8 +1,10 @@
 package com.zhs.service.impl;
 
 import com.zhs.dao.ExchangeRecordsRepository;
+import com.zhs.dao.ResourceRepository;
 import com.zhs.dao.WeixinUserReposotory;
 import com.zhs.entity.ExchangeRecords;
+import com.zhs.entity.Resource;
 import com.zhs.entity.WeiXinUser;
 import com.zhs.exception.ZhsException;
 import com.zhs.service.IExchangeRecordsService;
@@ -28,15 +30,15 @@ public class ExchangeRecordsServiceImpl implements IExchangeRecordsService {
     private ExchangeRecordsRepository exchangeRecordsRepository;
 
     @Autowired
+    private ResourceRepository resourceRepository;
+
+    @Autowired
     private WeixinUserReposotory weixinUserReposotory;
 
     @Override
     public void add(ExchangeRecords exchangeRecords) {
-        Optional<WeiXinUser> optional = weixinUserReposotory.findById(exchangeRecords.getUserId());
-        if(!optional.isPresent()){
-            throw new ZhsException("没有该用户");
-        }
-        WeiXinUser weixinUser = optional.get();
+        WeiXinUser weixinUser = weixinUserReposotory.findById(exchangeRecords.getUserId()).orElseThrow(() -> new ZhsException("没有该用户"));
+        Resource resource = resourceRepository.findById(exchangeRecords.getResourceId()).orElseThrow(() -> new ZhsException("资源不存在"));
         Integer needIntegral = exchangeRecords.getIntegral();
         Integer hasIntegral = weixinUser.getIntegral();
         if(hasIntegral<needIntegral){
@@ -47,5 +49,7 @@ public class ExchangeRecordsServiceImpl implements IExchangeRecordsService {
         weixinUserReposotory.save(weixinUser);
         exchangeRecords.setStatus(0);
         exchangeRecordsRepository.save(exchangeRecords);
+        resource.setRecords(resource.getRecords()+1);
+        resourceRepository.save(resource);
     }
 }

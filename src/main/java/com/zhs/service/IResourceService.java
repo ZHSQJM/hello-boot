@@ -1,10 +1,13 @@
 package com.zhs.service;
 
 import com.zhs.dto.ResourceDto;
+import com.zhs.entity.Resource;
 import com.zhs.entity.SysUser;
+import com.zhs.vo.ResourceVo;
 import com.zhs.vo.UserVo;
 import org.springframework.beans.BeanUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -28,4 +31,10 @@ public interface IResourceService  {
      * @return
      */
     ResourceDto findResourceById(Long id);
+
+    List<Resource> getResourceByCategoryId(Long id,Integer status);
+
+    ResourceVo getdetail(Long id);
+
+    List<ResourceVo> getResourceByOpenId(String openId,Integer status);
 }

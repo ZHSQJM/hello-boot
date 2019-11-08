@@ -20,7 +20,7 @@ import javax.validation.Valid;
  * @Description:
  * @version: 1.0
  */
-
+@CrossOrigin
 @RestController
 @Slf4j
 @Api(description = "类目的API接口")
@@ -38,7 +38,7 @@ public class CategoryController {
     }
 
     @GetMapping("/find")
-    @ApiOperation(value = "获取类目分页",notes = "获取类目分页(分页)")
+    @ApiOperation(value = "获取所有类目",notes = "获取所有类目")
     public Result findPage(){
         return Result.success(ResultCode.SUCCESS,categoryService.findAll());
     }

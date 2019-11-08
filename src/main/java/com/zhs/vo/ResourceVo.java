@@ -1,7 +1,16 @@
 package com.zhs.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,10 +19,15 @@ import java.util.Date;
  * @Description:
  * @version: 1.0
  */
-public class ResourceVo {
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ResourceVo implements Serializable {
 
 
     /*** 主键*/
+    @JsonSerialize(using= ToStringSerializer.class)
     private Long id;
 
     /*** 资源名称*/
@@ -25,7 +39,7 @@ public class ResourceVo {
 
     /*** 积分*/
     @Column(length = 255)
-    private Long integral;
+    private Integer integral;
 
     /**下载路径*/
     private String url;
@@ -46,5 +60,9 @@ public class ResourceVo {
     private Date createTime;
 
     /*** 修改时间*/
+    @JsonFormat(pattern  = "yyyy-MM-dd")
     private Date updateTime;
+
+    /**所属用户*/
+    private String username;
 }
