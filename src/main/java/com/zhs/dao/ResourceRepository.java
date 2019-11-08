@@ -22,5 +22,8 @@ public interface ResourceRepository  extends JpaRepository<Resource,Long>, JpaSp
      * @param type
      * @return
      */
-    List<Resource> findAllByCategoryTypeAndStatus(Long type,Integer status);
+    List<Resource> findResourceByCategoryTypeAndStatus(Long type,Integer status);
+
+
+    List<Resource> findResourcesByOpenIdAndStatus(String openId,Integer status);
 }

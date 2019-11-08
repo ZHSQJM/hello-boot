@@ -10,13 +10,16 @@ import com.zhs.entity.WeiXinUser;
 import com.zhs.exception.ZhsException;
 import com.zhs.service.IResourceService;
 import com.zhs.utils.SnowflakeIdWorker;
+import com.zhs.vo.ResourceVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -62,6 +65,7 @@ public class ResourceServiceImpl implements IResourceService {
         WeiXinUser weixinUser = userOptional.get();
         Integer hasIntegral = weixinUser.getIntegral();
         Integer totalIntegral = hasIntegral + resource.getIntegral();
+        resource.setRecords(0);
         weixinUser.setIntegral(totalIntegral);
         weixinUserReposotory.save(weixinUser);
         resourceRepository.save(resource);
@@ -76,5 +80,38 @@ public class ResourceServiceImpl implements IResourceService {
            BeanUtils.copyProperties(resource,resourceDto);
         }
         return resourceDto;
+    }
+
+    @Override
+    public List<Resource> getResourceByCategoryId(Long id,Integer status) {
+        List<Resource> allByCategoryTypeAndStatus = resourceRepository.findResourceByCategoryTypeAndStatus(id, status);
+        return allByCategoryTypeAndStatus;
+    }
+
+    @Override
+    public ResourceVo getdetail(Long id) {
+        ResourceVo resourceVo  = new ResourceVo();
+        Resource resource = resourceRepository.findById(id).orElseThrow(() -> new ZhsException("找不到该资源"));
+
+        if(resource.getStatus().equals("1")){
+            new ZhsException("资源过期");
+        }
+        BeanUtils.copyProperties(resource,resourceVo);
+        String openId = resource.getOpenId();
+        WeiXinUser byOpenId = weixinUserReposotory.findByOpenId(openId);
+        resourceVo.setUsername(byOpenId.getNickName());
+        return resourceVo;
+    }
+
+    @Override
+    public List<ResourceVo> getResourceByOpenId(String openId,Integer status) {
+        List<ResourceVo> list  = new ArrayList<>(16);
+        List<Resource> resourcesByOpenIdaAndStatus = resourceRepository.findResourcesByOpenIdAndStatus(openId, status);
+        for (Resource byOpenIdaAndStatus : resourcesByOpenIdaAndStatus) {
+            ResourceVo resourceVo = new ResourceVo();
+            BeanUtils.copyProperties(byOpenIdaAndStatus,resourceVo);
+            list.add(resourceVo);
+        }
+        return list;
     }
 }

@@ -1,5 +1,6 @@
 package com.zhs.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -68,10 +69,14 @@ public class Resource {
 
     /*** 创建时间*/
     @Column(length = 255)
+    @JsonFormat(pattern  = "yyyy-MM-dd")
     private Date createTime;
 
     /*** 修改时间*/
     @Column(length = 255)
     private Date updateTime;
+
+    /**兑换数*/
+    private Integer records;
 
 }

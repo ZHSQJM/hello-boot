@@ -13,4 +13,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface WeixinUserReposotory extends JpaRepository<WeiXinUser,String>, JpaSpecificationExecutor<WeiXinUser> {
+
+
+    WeiXinUser findByOpenId(String openId);
 }

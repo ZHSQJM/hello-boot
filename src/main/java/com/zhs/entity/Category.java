@@ -38,6 +38,12 @@ public class Category {
     @Column(length = 255)
     private String description;
 
+    /**图标*/
+    @Column(length = 255)
+    private String icon;
+
+    @Column(length = 255)
+    private String color;
 
     private String icon;
 

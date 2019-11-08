@@ -2,6 +2,8 @@ package com.zhs.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 /**
  * @author: zhouhuasheng
  * @date: 2019/11/1 17:38
@@ -11,5 +13,5 @@ import org.springframework.web.multipart.MultipartFile;
 public interface IUploadService {
 
 
-    void uploadFile( MultipartFile file);
+    String uploadFile( MultipartFile file) throws IOException;
 }
