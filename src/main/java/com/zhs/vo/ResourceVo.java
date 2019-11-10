@@ -49,6 +49,7 @@ public class ResourceVo implements Serializable {
 
     /*** 所属类型*/
     @Column(length = 32)
+    @JsonSerialize(using= ToStringSerializer.class)
     private Long categoryType;
 
     /*** 所属状态*/

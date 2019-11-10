@@ -1,8 +1,11 @@
 package com.zhs.controller;
 
+import com.zhs.condition.ResourceCondition;
+import com.zhs.condition.RoleCondition;
 import com.zhs.dto.CategoryDto;
 import com.zhs.dto.ResourceDto;
 import com.zhs.entity.Resource;
+import com.zhs.enums.ResultCode;
 import com.zhs.service.IResourceService;
 import com.zhs.utils.Result;
 import com.zhs.vo.ResourceVo;
@@ -42,7 +45,6 @@ public class ResourceController {
     @ApiOperation(value = "根据类型获取资源",notes = "根据类型获取资源")
     public Result getResourceByCategoryId(@PathVariable("id") Long id,Integer status){
        List<Resource> list = resourceService.getResourceByCategoryId(id,status);
-        System.out.println(list.size()+"=");
         return Result.success(list);
     }
 
@@ -58,5 +60,12 @@ public class ResourceController {
     public Result getResourceByOpenId(@RequestParam(required = true,name = "openId") String openId,Integer status){
         List<ResourceVo> list = resourceService.getResourceByOpenId(openId,status);
         return Result.success(list);
+    }
+
+
+    @GetMapping("/find-all-page")
+    @ApiOperation(value = "根据条件获取所有的资源数据数据(分页)",notes = "根据条件获取所有的资源数据数据(分页)")
+    public Result findPage(ResourceCondition resourceCondition, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10")int pageSize){
+        return Result.success(ResultCode.SUCCESS,resourceService.findPage(resourceCondition,page,pageSize));
     }
 }

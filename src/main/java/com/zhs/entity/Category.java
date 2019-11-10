@@ -45,7 +45,6 @@ public class Category {
     @Column(length = 255)
     private String color;
 
-    private String icon;
 
     private Integer status;
 

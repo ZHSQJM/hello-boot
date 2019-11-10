@@ -1,6 +1,8 @@
 package com.zhs.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -61,6 +63,7 @@ public class Resource {
 
     /*** 所属类型*/
     @Column(length = 32)
+    @JsonSerialize(using= ToStringSerializer.class)
     private Long categoryType;
 
     /*** 所属状态*/

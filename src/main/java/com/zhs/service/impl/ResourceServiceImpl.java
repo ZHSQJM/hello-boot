@@ -1,22 +1,28 @@
 package com.zhs.service.impl;
 
+import com.zhs.condition.ResourceCondition;
 import com.zhs.dao.CategoryRepository;
 import com.zhs.dao.ResourceRepository;
 import com.zhs.dao.WeixinUserReposotory;
 import com.zhs.dto.ResourceDto;
-import com.zhs.entity.Category;
-import com.zhs.entity.Resource;
-import com.zhs.entity.WeiXinUser;
+import com.zhs.entity.*;
 import com.zhs.exception.ZhsException;
 import com.zhs.service.IResourceService;
 import com.zhs.utils.SnowflakeIdWorker;
+import com.zhs.vo.PageVo;
 import com.zhs.vo.ResourceVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -113,5 +119,47 @@ public class ResourceServiceImpl implements IResourceService {
             list.add(resourceVo);
         }
         return list;
+    }
+
+    @Override
+    public Page<Resource> findPage(ResourceCondition resourceCondition, int page, int pageSize) {
+
+        Resource resource = new Resource();
+        BeanUtils.copyProperties(resourceCondition,resource);
+        Pageable pageable = new PageRequest(page-1, pageSize, Sort.Direction.ASC, "createTime");
+        return resourceRepository.findAll(getSpecification(resource), pageable);
+
+    }
+
+
+    public Specification getSpecification(Resource resourceCondition){
+        return (a,b,c)-> {
+            List<Predicate> list = new ArrayList<>(16);
+            if (resourceCondition.getName() != null && !"".equals(resourceCondition.getName())) {
+                //资源名称模糊查询
+                Predicate predicate = c.like(a.get("name").as(String.class), "%" + resourceCondition.getName() + "%");
+                list.add(predicate);
+            }
+            if (resourceCondition.getStatus() != null && !"".equals(resourceCondition.getStatus())) {
+                //用户名模糊查询
+                Predicate predicate = c.equal(a.get("status").as(Integer.class), resourceCondition.getStatus());
+                list.add(predicate);
+            }
+            if (resourceCondition.getOpenId() != null && !"".equals(resourceCondition.getOpenId())) {
+                //用户名模糊查询
+                Predicate predicate = c.equal(a.get("openId").as(Integer.class), resourceCondition.getOpenId());
+                list.add(predicate);
+            }
+            if (resourceCondition.getCategoryType() != null && !"".equals(resourceCondition.getCategoryType())) {
+                //用户名模糊查询
+                Predicate predicate = c.equal(a.get("categoryType").as(Integer.class), resourceCondition.getCategoryType());
+                list.add(predicate);
+            }
+            Predicate[] parr = new Predicate[list.size()];
+            //把list专场数组
+            list.toArray(parr);
+            return c.and(parr);
+        };
+
     }
 }

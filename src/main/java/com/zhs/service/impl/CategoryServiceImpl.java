@@ -74,7 +74,6 @@ public class CategoryServiceImpl implements ICategoryService {
             /**获取有效的资源*/
             List<Resource> allByCategoryType = resourceRepository.findResourceByCategoryTypeAndStatus(e.getId(),0);
             categoryVo.setBadge(allByCategoryType.size());
-            System.out.println(categoryVo);
             vos.add(categoryVo);
         });
         return vos;
