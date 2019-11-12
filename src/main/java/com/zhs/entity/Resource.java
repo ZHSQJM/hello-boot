@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -27,12 +28,13 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class Resource {
+public class Resource implements Serializable {
 
 
     /*** 主键*/
     @Id
     @Column(length = 32)
+    @JsonSerialize(using= ToStringSerializer.class)
     private Long id;
 
     /*** 资源名称*/

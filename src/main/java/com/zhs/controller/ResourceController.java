@@ -68,4 +68,12 @@ public class ResourceController {
     public Result findPage(ResourceCondition resourceCondition, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10")int pageSize){
         return Result.success(ResultCode.SUCCESS,resourceService.findPage(resourceCondition,page,pageSize));
     }
+
+    @GetMapping("/find-resource-by-id")
+    @ApiOperation(value = "获取单个资源的详细信息",notes = "获取单个资源的详细信息(分页)")
+    public Result findResourceById(String openId,Long id){
+
+        return Result.success(ResultCode.SUCCESS,resourceService.findResourceById(id,openId));
+    }
+
 }

@@ -14,4 +14,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ExchangeRecordsRepository   extends JpaRepository<ExchangeRecords,Long>, JpaSpecificationExecutor<ExchangeRecords> {
+
+
+    ExchangeRecords findByUserIdAndResourceId(String openId,Long resourceId);
 }

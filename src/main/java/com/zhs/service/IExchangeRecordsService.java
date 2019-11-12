@@ -10,5 +10,5 @@ import com.zhs.entity.ExchangeRecords;
  */
 public interface IExchangeRecordsService {
 
-    void add(ExchangeRecords exchangeRecords);
+    String add(ExchangeRecords exchangeRecords);
 }

@@ -35,7 +35,7 @@ public interface IResourceService  {
      * @param id
      * @return
      */
-    ResourceDto findResourceById(Long id);
+    ResourceVo findResourceById(Long id,String openId);
 
     List<Resource> getResourceByCategoryId(Long id,Integer status);
 

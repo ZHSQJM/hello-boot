@@ -2,6 +2,7 @@ package com.zhs.service.impl;
 
 import com.zhs.condition.ResourceCondition;
 import com.zhs.dao.CategoryRepository;
+import com.zhs.dao.ExchangeRecordsRepository;
 import com.zhs.dao.ResourceRepository;
 import com.zhs.dao.WeixinUserReposotory;
 import com.zhs.dto.ResourceDto;
@@ -51,6 +52,9 @@ public class ResourceServiceImpl implements IResourceService {
     @Autowired
     private WeixinUserReposotory weixinUserReposotory;
 
+    @Autowired
+    private ExchangeRecordsRepository exchangeRecordsRepository;
+
     @Override
     public void saveResource(ResourceDto resourceDto) {
         Optional<Category> optional = categoryRepository.findById(resourceDto.getCategoryType());
@@ -78,14 +82,25 @@ public class ResourceServiceImpl implements IResourceService {
     }
 
     @Override
-    public ResourceDto findResourceById(Long id) {
-        Optional<Resource> optional = resourceRepository.findById(id);
-        ResourceDto resourceDto = new ResourceDto();
-        if(optional.isPresent()){
-            Resource resource = optional.get();
-           BeanUtils.copyProperties(resource,resourceDto);
+    public ResourceVo findResourceById(Long id,String openId) {
+
+        ExchangeRecords exchangeRecords = exchangeRecordsRepository.findByUserIdAndResourceId(openId,id);
+
+        Optional<ExchangeRecords> optional = Optional.ofNullable(exchangeRecords);
+
+        Optional<Resource> optional1 = resourceRepository.findById(id);
+        ResourceVo resourceVo = new ResourceVo();
+        if(optional1.isPresent()){
+            Resource resource = optional1.get();
+           BeanUtils.copyProperties(resource,resourceVo);
         }
-        return resourceDto;
+
+        if(optional.isPresent()){
+            return resourceVo;
+        }else{
+            resourceVo.setPassword(null);
+            return resourceVo;
+        }
     }
 
     @Override
@@ -123,6 +138,7 @@ public class ResourceServiceImpl implements IResourceService {
 
     @Override
     public Page<Resource> findPage(ResourceCondition resourceCondition, int page, int pageSize) {
+
 
         Resource resource = new Resource();
         BeanUtils.copyProperties(resourceCondition,resource);

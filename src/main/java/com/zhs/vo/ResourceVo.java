@@ -57,7 +57,7 @@ public class ResourceVo implements Serializable {
     private Integer status;
 
     /*** 创建时间*/
-
+    @JsonFormat(pattern  = "yyyy-MM-dd")
     private Date createTime;
 
     /*** 修改时间*/

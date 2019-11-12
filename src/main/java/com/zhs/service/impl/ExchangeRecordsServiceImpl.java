@@ -8,6 +8,7 @@ import com.zhs.entity.Resource;
 import com.zhs.entity.WeiXinUser;
 import com.zhs.exception.ZhsException;
 import com.zhs.service.IExchangeRecordsService;
+import com.zhs.utils.SnowflakeIdWorker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,8 +36,13 @@ public class ExchangeRecordsServiceImpl implements IExchangeRecordsService {
     @Autowired
     private WeixinUserReposotory weixinUserReposotory;
 
+    @Autowired
+    private SnowflakeIdWorker snowflakeIdWorker;
+
+
+
     @Override
-    public void add(ExchangeRecords exchangeRecords) {
+    public String add(ExchangeRecords exchangeRecords) {
         WeiXinUser weixinUser = weixinUserReposotory.findById(exchangeRecords.getUserId()).orElseThrow(() -> new ZhsException("没有该用户"));
         Resource resource = resourceRepository.findById(exchangeRecords.getResourceId()).orElseThrow(() -> new ZhsException("资源不存在"));
         Integer needIntegral = exchangeRecords.getIntegral();
@@ -48,8 +54,10 @@ public class ExchangeRecordsServiceImpl implements IExchangeRecordsService {
         weixinUser.setIntegral(nowIntegral);
         weixinUserReposotory.save(weixinUser);
         exchangeRecords.setStatus(0);
+        exchangeRecords.setId(snowflakeIdWorker.nextId());
         exchangeRecordsRepository.save(exchangeRecords);
         resource.setRecords(resource.getRecords()+1);
         resourceRepository.save(resource);
+        return resource.getPassword();
     }
 }

@@ -28,6 +28,7 @@ import java.util.Date;
 public class Banner {
 
     @Id
+
     private Long id;
 
     @Column(length = 10000)
