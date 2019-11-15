@@ -30,7 +30,7 @@ public class ResourceDto {
     /*** 描述*/
     private String description;
 
-
+    /**封面图片*/
     private String photoUrl;
 
     private Integer status;

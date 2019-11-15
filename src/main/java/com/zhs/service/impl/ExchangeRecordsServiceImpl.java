@@ -9,11 +9,21 @@ import com.zhs.entity.WeiXinUser;
 import com.zhs.exception.ZhsException;
 import com.zhs.service.IExchangeRecordsService;
 import com.zhs.utils.SnowflakeIdWorker;
+import com.zhs.vo.ExchangeRecordsVo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -40,7 +50,6 @@ public class ExchangeRecordsServiceImpl implements IExchangeRecordsService {
     private SnowflakeIdWorker snowflakeIdWorker;
 
 
-
     @Override
     public String add(ExchangeRecords exchangeRecords) {
         WeiXinUser weixinUser = weixinUserReposotory.findById(exchangeRecords.getUserId()).orElseThrow(() -> new ZhsException("没有该用户"));
@@ -60,4 +69,40 @@ public class ExchangeRecordsServiceImpl implements IExchangeRecordsService {
         resourceRepository.save(resource);
         return resource.getPassword();
     }
+
+    @Override
+    public Page<ExchangeRecordsVo> getExchangerRecords(String openId, int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page-1,pageSize);
+        List<ExchangeRecords> allByUserId = exchangeRecordsRepository.findAllByUserId(openId);
+        List<ExchangeRecordsVo> list = new ArrayList<>(16);
+        for (ExchangeRecords exchangeRecords : allByUserId) {
+            Resource resource = resourceRepository.findById(exchangeRecords.getResourceId()).orElseThrow(() -> new ZhsException("资源不存在"));
+            ExchangeRecordsVo exchangeRecordsVo = new ExchangeRecordsVo();
+            BeanUtils.copyProperties(exchangeRecords,exchangeRecordsVo);
+            exchangeRecordsVo.setName(resource.getName());
+            exchangeRecordsVo.setDescription(resource.getDescription());
+            exchangeRecordsVo.setPhothUrl(resource.getPhothUrl());
+            exchangeRecordsVo.setId(resource.getId());
+            list.add(exchangeRecordsVo);
+        }
+        PageImpl<ExchangeRecordsVo> exchangeRecordsVos = new PageImpl<>(list, pageable, list.size());
+        return exchangeRecordsVos;
+    }
+
+//    public Specification getSpecification(String openId){
+//        return (a,b,c)-> {
+//            List<Predicate> list = new ArrayList<>(16);
+//            if (openId != null && !"".equals(openId)) {
+//                //用户名模糊查询
+//                Predicate predicate = c.equal(a.get("openId").as(Integer.class), openId);
+//                list.add(predicate);
+//            }
+//
+//            Predicate[] parr = new Predicate[list.size()];
+//            //把list专场数组
+//            list.toArray(parr);
+//            return c.and(parr);
+//        };
+//
+//    }
 }

@@ -1,5 +1,6 @@
 package com.zhs.exception;
 
+import com.aliyun.oss.OSSException;
 import com.zhs.utils.Result;
 import com.zhs.enums.ResultCode;
 import org.springframework.validation.BindingResult;
@@ -58,6 +59,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = ZhsException.class)
     public Result zhsExceptionHandler(ZhsException ex){
         return Result.failure(ResultCode.FAILURE,ex.getMsg());
+    }
+
+    @ExceptionHandler(value = OSSException.class)
+    public Result OSSExceptionHandler(OSSException ex){
+        return Result.failure(ResultCode.FAILURE,ex.getMessage());
     }
 
 }

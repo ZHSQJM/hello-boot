@@ -1,14 +1,10 @@
 package com.zhs.service.impl;
 
-import com.querydsl.core.types.ExpressionUtils;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.zhs.condition.FileCondition;
 import com.zhs.dao.FileRepository;
 import com.zhs.dao.UserRepository;
 import com.zhs.dto.FileDto;
-import com.zhs.entity.QSysFile;
-import com.zhs.entity.QSysUser;
 import com.zhs.entity.SysFile;
 import com.zhs.entity.SysUser;
 import com.zhs.exception.ZhsException;
@@ -21,14 +17,11 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * @author: zhouhuasheng
@@ -77,64 +70,65 @@ public class FileServiceImpl implements IFileService {
     @Override
     @Cacheable(key = "#fileConfition.userId",unless="#result == null",condition="#fileConfition.userId==null")
     public List<FileVo> findAll(FileCondition fileConfition) {
-        QSysFile sysFile = QSysFile.sysFile;
-        QSysUser sysUser = QSysUser.sysUser;
-        //初始化组装条件(类似where 1=1)
-        Predicate predicate = sysFile.isNotNull().or(sysFile.isNull());
-        //执行动态条件拼装
-        predicate = fileConfition.getFileName() == null ? predicate : ExpressionUtils.and(predicate, sysFile.fileName.like("%"+fileConfition.getFileName()+"%"));
-        predicate = fileConfition.getUserId() == null ? predicate : ExpressionUtils.and(predicate, sysFile.userId.eq(fileConfition.getUserId()));
-        predicate = fileConfition.getType() == null ? predicate : ExpressionUtils.and(predicate, sysFile.type.eq(fileConfition.getType()));
-        List<FileVo> dtoList = jpaQueryFactory
-                .select(
-                        sysFile.id,
-                        sysFile.fileName,
-                        sysFile.fileSize,
-                        sysFile.type,
-                        sysFile.url,
-                        sysUser.username,
-                        sysFile.createTime,
-                        sysFile.updateTime
-                )
-                .from(sysFile,sysUser)
-                .where(
-                        sysFile.userId.eq(sysUser.id)
-                )
-                .where(predicate)
-
-                .orderBy(sysFile.createTime.asc())
-               // .offset(pageable.getOffset()) 分页
-              //  .limit(pageable.getPageSize())
-                .fetch()
-                .stream()
-                .map(tuple -> FileVo.builder()
-                        .id(tuple.get(sysFile.id))
-                        .fileName(tuple.get(sysFile.fileName))
-                        .fileSize(tuple.get(sysFile.fileSize))
-                        .type(tuple.get(sysFile.type))
-                        .url(tuple.get(sysFile.url))
-                        .userName(tuple.get(sysUser.username))
-                        .createTime(tuple.get(sysFile.createTime))
-                        .updateTime(tuple.get(sysFile.updateTime))
-                        .build()
-                )
-                .collect(Collectors.toList());
-        return dtoList;
+//        QSysFile sysFile = QSysFile.sysFile;
+//        QSysUser sysUser = QSysUser.sysUser;
+//        //初始化组装条件(类似where 1=1)
+//        Predicate predicate = sysFile.isNotNull().or(sysFile.isNull());
+//        //执行动态条件拼装
+//        predicate = fileConfition.getFileName() == null ? predicate : ExpressionUtils.and(predicate, sysFile.fileName.like("%"+fileConfition.getFileName()+"%"));
+//        predicate = fileConfition.getUserId() == null ? predicate : ExpressionUtils.and(predicate, sysFile.userId.eq(fileConfition.getUserId()));
+//        predicate = fileConfition.getType() == null ? predicate : ExpressionUtils.and(predicate, sysFile.type.eq(fileConfition.getType()));
+//        List<FileVo> dtoList = jpaQueryFactory
+//                .select(
+//                        sysFile.id,
+//                        sysFile.fileName,
+//                        sysFile.fileSize,
+//                        sysFile.type,
+//                        sysFile.url,
+//                        sysUser.username,
+//                        sysFile.createTime,
+//                        sysFile.updateTime
+//                )
+//                .from(sysFile,sysUser)
+//                .where(
+//                        sysFile.userId.eq(sysUser.id)
+//                )
+//                .where(predicate)
+//
+//                .orderBy(sysFile.createTime.asc())
+//               // .offset(pageable.getOffset()) 分页
+//              //  .limit(pageable.getPageSize())
+//                .fetch()
+//                .stream()
+//                .map(tuple -> FileVo.builder()
+//                        .id(tuple.get(sysFile.id))
+//                        .fileName(tuple.get(sysFile.fileName))
+//                        .fileSize(tuple.get(sysFile.fileSize))
+//                        .type(tuple.get(sysFile.type))
+//                        .url(tuple.get(sysFile.url))
+//                        .userName(tuple.get(sysUser.username))
+//                        .createTime(tuple.get(sysFile.createTime))
+//                        .updateTime(tuple.get(sysFile.updateTime))
+//                        .build()
+//                )
+//                .collect(Collectors.toList());
+        return null;
     }
 
     @Override
     @Cacheable(cacheNames = "list", key = "list")
     public Page<SysFile> findAllPage(FileCondition fileCondition, int page, int pageSize) {
-        QSysFile sysFile = QSysFile.sysFile;
-        //初始化组装条件(类似where 1=1)
-        Predicate predicate = sysFile.isNotNull().or(sysFile.isNull());
-        //执行动态条件拼装
-        //执行动态条件拼装
-        predicate = fileCondition.getFileName() == null ? predicate : ExpressionUtils.and(predicate, sysFile.fileName.like("%"+fileCondition.getFileName()+"%"));
-        predicate = fileCondition.getUserId() == null ? predicate : ExpressionUtils.and(predicate, sysFile.userId.eq(fileCondition.getUserId()));
-        predicate = fileCondition.getType() == null ? predicate : ExpressionUtils.and(predicate, sysFile.type.eq(fileCondition.getType()));
-        Pageable pageable = PageRequest.of(page-1,pageSize);
-        return  fileRepository.findAll(predicate, pageable);
+//        QSysFile sysFile = QSysFile.sysFile;
+//        //初始化组装条件(类似where 1=1)
+//        Predicate predicate = sysFile.isNotNull().or(sysFile.isNull());
+//        //执行动态条件拼装
+//        //执行动态条件拼装
+//        predicate = fileCondition.getFileName() == null ? predicate : ExpressionUtils.and(predicate, sysFile.fileName.like("%"+fileCondition.getFileName()+"%"));
+//        predicate = fileCondition.getUserId() == null ? predicate : ExpressionUtils.and(predicate, sysFile.userId.eq(fileCondition.getUserId()));
+//        predicate = fileCondition.getType() == null ? predicate : ExpressionUtils.and(predicate, sysFile.type.eq(fileCondition.getType()));
+//        Pageable pageable = PageRequest.of(page-1,pageSize);
+//        return  fileRepository.findAll(predicate, pageable);
+        return  null;
     }
 
     @Override

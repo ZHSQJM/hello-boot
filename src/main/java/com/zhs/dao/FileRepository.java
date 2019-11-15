@@ -10,5 +10,5 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
  * @Description:
  * @version: 1.0
  */
-public interface FileRepository  extends JpaRepository<SysFile, Long>, QuerydslPredicateExecutor<SysFile> {
+public interface FileRepository  extends JpaRepository<SysFile, Long> {
 }

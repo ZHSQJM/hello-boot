@@ -1,6 +1,10 @@
 package com.zhs.service;
 
 import com.zhs.entity.ExchangeRecords;
+import com.zhs.vo.ExchangeRecordsVo;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 /**
  * @author: zhouhuasheng
@@ -11,4 +15,7 @@ import com.zhs.entity.ExchangeRecords;
 public interface IExchangeRecordsService {
 
     String add(ExchangeRecords exchangeRecords);
+
+
+    Page<ExchangeRecordsVo> getExchangerRecords(String openId, int page, int pageSize);
 }

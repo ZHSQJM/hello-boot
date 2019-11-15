@@ -1,13 +1,10 @@
 package com.zhs.service.impl;
 
-import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.zhs.condition.UserCondition;
 import com.zhs.dao.RoleRepository;
 import com.zhs.dao.UserRepository;
 import com.zhs.dto.UserDto;
-import com.zhs.entity.QSysRole;
-import com.zhs.entity.QSysUser;
 import com.zhs.entity.SysRole;
 import com.zhs.entity.SysUser;
 import com.zhs.exception.ZhsException;
@@ -21,19 +18,11 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author: zhouhuasheng
@@ -127,53 +116,54 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public PageVo<UserVo> findPage(UserCondition userCondition, int page, int pageSize) {
-        QSysUser sysUser = QSysUser.sysUser;
-        QSysRole sysRole = QSysRole.sysRole;
-
-        //初始化组装条件(类似where 1=1)
-        com.querydsl.core.types.Predicate predicate = sysUser.isNotNull().or(sysUser.isNull());
-        //执行动态条件拼装
-        //执行动态条件拼装
-        predicate = userCondition.getUserName() == null ? predicate : ExpressionUtils.and(predicate, sysUser.username.like("%"+userCondition.getUserName()+"%"));
-        predicate = userCondition.getStatus() == null ? predicate : ExpressionUtils.and(predicate, sysUser.status.eq(userCondition.getStatus()));
-        Pageable pageable = PageRequest.of(page-1,pageSize);
-        //直接返回
-
-        List<UserVo> collect = jpaQueryFactory
-                //投影只去部分字段
-                .select(
-                        sysUser.id,
-                        sysUser.username,
-                        sysUser.sex,
-                        sysUser.status,
-                        sysUser.createTime,
-                        sysUser.updateTime,
-                        sysRole.name
-                )
-                .from(sysUser)
-                //联合查询
-                .join(sysUser.roles, sysRole)
-                .where(predicate)
-                .fetch()
-                //lambda开始
-                .stream()
-                .map(tuple ->
-                        //需要做类型转换，所以使用map函数非常适合
-                        UserVo.builder()
-                                .id(tuple.get(sysUser.id))
-                                .username(tuple.get(sysUser.username))
-                                .sex(tuple.get(sysUser.sex))
-                                .status(tuple.get(sysUser.status))
-                                .sex(tuple.get(sysUser.sex))
-                                .sex(tuple.get(sysUser.sex))
-                                .createTime(tuple.get(sysUser.createTime))
-                                .updateTime(tuple.get(sysUser.updateTime))
-                                .roleName(tuple.get(sysRole.name))
-                                .build()
-                )
-                .collect(Collectors.toList());
-        PageImpl<UserVo> userVos = new PageImpl<>(collect, pageable, collect.size());
-        return  new PageVo(userVos.getTotalPages(),userVos.getContent());
+//        QSysUser sysUser = QSysUser.sysUser;
+//        QSysRole sysRole = QSysRole.sysRole;
+//
+//        //初始化组装条件(类似where 1=1)
+//        com.querydsl.core.types.Predicate predicate = sysUser.isNotNull().or(sysUser.isNull());
+//        //执行动态条件拼装
+//        //执行动态条件拼装
+//        predicate = userCondition.getUserName() == null ? predicate : ExpressionUtils.and(predicate, sysUser.username.like("%"+userCondition.getUserName()+"%"));
+//        predicate = userCondition.getStatus() == null ? predicate : ExpressionUtils.and(predicate, sysUser.status.eq(userCondition.getStatus()));
+//        Pageable pageable = PageRequest.of(page-1,pageSize);
+//        //直接返回
+//
+//        List<UserVo> collect = jpaQueryFactory
+//                //投影只去部分字段
+//                .select(
+//                        sysUser.id,
+//                        sysUser.username,
+//                        sysUser.sex,
+//                        sysUser.status,
+//                        sysUser.createTime,
+//                        sysUser.updateTime,
+//                        sysRole.name
+//                )
+//                .from(sysUser)
+//                //联合查询
+//                .join(sysUser.roles, sysRole)
+//                .where(predicate)
+//                .fetch()
+//                //lambda开始
+//                .stream()
+//                .map(tuple ->
+//                        //需要做类型转换，所以使用map函数非常适合
+//                        UserVo.builder()
+//                                .id(tuple.get(sysUser.id))
+//                                .username(tuple.get(sysUser.username))
+//                                .sex(tuple.get(sysUser.sex))
+//                                .status(tuple.get(sysUser.status))
+//                                .sex(tuple.get(sysUser.sex))
+//                                .sex(tuple.get(sysUser.sex))
+//                                .createTime(tuple.get(sysUser.createTime))
+//                                .updateTime(tuple.get(sysUser.updateTime))
+//                                .roleName(tuple.get(sysRole.name))
+//                                .build()
+//                )
+//                .collect(Collectors.toList());
+//        PageImpl<UserVo> userVos = new PageImpl<>(collect, pageable, collect.size());
+//        return  new PageVo(userVos.getTotalPages(),userVos.getContent());
+        return null;
     }
 
     @Override

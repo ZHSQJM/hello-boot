@@ -11,5 +11,5 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
  * @Description:
  * @version: 1.0
  */
-public interface PermissionRepository extends JpaRepository<SysPermission,Long>, JpaSpecificationExecutor<SysPermission> , QuerydslPredicateExecutor<SysPermission> {
+public interface PermissionRepository extends JpaRepository<SysPermission,Long>, JpaSpecificationExecutor<SysPermission>{
 }

@@ -29,6 +29,9 @@ public class UploadServiceImpl implements IUploadService {
     public String  uploadFile(MultipartFile file) throws IOException {
 
         String url=ossUploadImgProvider.UploadFile(file.getInputStream(),file.getContentType(),file.getOriginalFilename());
+
+
+        System.out.println(url);
         return url;
 
 

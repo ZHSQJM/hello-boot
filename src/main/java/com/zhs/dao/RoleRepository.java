@@ -14,7 +14,7 @@ import java.util.List;
  * @version: 1.0
  */
 @Repository
-public interface RoleRepository extends JpaRepository<SysRole, Long>, QuerydslPredicateExecutor<SysRole> {
+public interface RoleRepository extends JpaRepository<SysRole, Long> {
 
 
 

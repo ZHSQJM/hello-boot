@@ -20,7 +20,7 @@ import java.util.Map;
  * @version: 1.0
  */
 @Repository
-public interface UserRepository extends JpaRepository<SysUser,Long>, JpaSpecificationExecutor<SysUser>, QuerydslPredicateExecutor<SysUser> {
+public interface UserRepository extends JpaRepository<SysUser,Long>, JpaSpecificationExecutor<SysUser> {
 
 
     SysUser findSysUserByUsername(String userName);

@@ -163,12 +163,12 @@ public class ResourceServiceImpl implements IResourceService {
             }
             if (resourceCondition.getOpenId() != null && !"".equals(resourceCondition.getOpenId())) {
                 //用户名模糊查询
-                Predicate predicate = c.equal(a.get("openId").as(Integer.class), resourceCondition.getOpenId());
+                Predicate predicate = c.equal(a.get("openId").as(String.class), resourceCondition.getOpenId());
                 list.add(predicate);
             }
             if (resourceCondition.getCategoryType() != null && !"".equals(resourceCondition.getCategoryType())) {
                 //用户名模糊查询
-                Predicate predicate = c.equal(a.get("categoryType").as(Integer.class), resourceCondition.getCategoryType());
+                Predicate predicate = c.equal(a.get("categoryType").as(String.class), resourceCondition.getCategoryType());
                 list.add(predicate);
             }
             Predicate[] parr = new Predicate[list.size()];

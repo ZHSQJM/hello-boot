@@ -33,9 +33,9 @@ upload:
 
 oss:
   endpoint: oss-cn-beijing.aliyuncs.com
-  accessKeyId: LTAI6EW8bTwlXoZD
-  bucketName: coderman
-  accessKeySecret: p0zpokgzi3LrIuEu82lxYx0jNo5OLU
+  accessKeyId: LTAI4Fe99vP6pef9XvzQXCUM
+  bucketName: z-study-resource
+  accessKeySecret: V9c2IamvkeGrqNODwOfKbIh5EXzzyv
 
 
 
