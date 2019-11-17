@@ -5,6 +5,6 @@ spring:
 server:
   ssl:
     key-store: classpath:3097886_www.zhouhuasheng.top.pfx
-    store-password: sLczBIj8
-    keyStoreType: PKCS12
+    key-store-password: sLczBIj8
+    key-store-type: PKCS12
   port: 8080

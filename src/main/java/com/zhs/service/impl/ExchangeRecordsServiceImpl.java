@@ -59,14 +59,25 @@ public class ExchangeRecordsServiceImpl implements IExchangeRecordsService {
         if(hasIntegral<needIntegral){
             throw  new ZhsException("积分不足,请及时登录领取积分");
         }
+        //兑换者扣除积分
         Integer nowIntegral =  hasIntegral - needIntegral;
         weixinUser.setIntegral(nowIntegral);
         weixinUserReposotory.save(weixinUser);
         exchangeRecords.setStatus(0);
         exchangeRecords.setId(snowflakeIdWorker.nextId());
         exchangeRecordsRepository.save(exchangeRecords);
+
+        //资源下载数加+1
         resource.setRecords(resource.getRecords()+1);
         resourceRepository.save(resource);
+
+        //资源上传者加上该积分
+        final String openId = resource.getOpenId();
+        final WeiXinUser byOpenId = weixinUserReposotory.findByOpenId(openId);
+       Integer newInteger =  byOpenId.getIntegral()+ needIntegral;
+        byOpenId.setIntegral(needIntegral);
+        weixinUserReposotory.save(byOpenId);
+
         return resource.getPassword();
     }
 
