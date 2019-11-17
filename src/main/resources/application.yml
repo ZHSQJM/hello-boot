@@ -3,4 +3,8 @@ spring:
     active: dev
 
 server:
+  ssl:
+    key-store: classpath:3097886_www.zhouhuasheng.top.pfx
+    store-password: sLczBIj8
+    keyStoreType: PKCS12
   port: 8080

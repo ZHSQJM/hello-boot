@@ -21,6 +21,8 @@ spring:
     host: 127.0.0.1
     port: 6379
 
+
+#本地文件上传
 upload:
     dir: D://meet//
     host: localhost:8002/
@@ -30,7 +32,7 @@ upload:
 
 
 
-
+#阿里云oss配置
 oss:
   endpoint: oss-cn-beijing.aliyuncs.com
   accessKeyId: LTAI4Fe99vP6pef9XvzQXCUM
