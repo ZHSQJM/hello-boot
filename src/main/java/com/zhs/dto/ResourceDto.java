@@ -33,6 +33,8 @@ public class ResourceDto {
     /**封面图片*/
     private String photoUrl;
 
+
+    /**0审核成功 1 未审核  2 审核失败 */
     private Integer status;
 
     /**下载路径*/

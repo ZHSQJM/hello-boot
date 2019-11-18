@@ -6,6 +6,7 @@ import com.zhs.dao.WeixinUserReposotory;
 import com.zhs.entity.ExchangeRecords;
 import com.zhs.entity.Resource;
 import com.zhs.entity.WeiXinUser;
+import com.zhs.enums.ResultEnum;
 import com.zhs.exception.ZhsException;
 import com.zhs.service.IExchangeRecordsService;
 import com.zhs.utils.SnowflakeIdWorker;
@@ -52,12 +53,12 @@ public class ExchangeRecordsServiceImpl implements IExchangeRecordsService {
 
     @Override
     public String add(ExchangeRecords exchangeRecords) {
-        WeiXinUser weixinUser = weixinUserReposotory.findById(exchangeRecords.getUserId()).orElseThrow(() -> new ZhsException("没有该用户"));
-        Resource resource = resourceRepository.findById(exchangeRecords.getResourceId()).orElseThrow(() -> new ZhsException("资源不存在"));
+        WeiXinUser weixinUser = weixinUserReposotory.findById(exchangeRecords.getUserId()).orElseThrow(() -> new ZhsException(ResultEnum.USER_NOT_FOUNT));
+        Resource resource = resourceRepository.findById(exchangeRecords.getResourceId()).orElseThrow(() -> new ZhsException(ResultEnum.RESOURCE_NOT_FOUND));
         Integer needIntegral = exchangeRecords.getIntegral();
         Integer hasIntegral = weixinUser.getIntegral();
         if(hasIntegral<needIntegral){
-            throw  new ZhsException("积分不足,请及时登录领取积分");
+            throw  new ZhsException(ResultEnum.INTEGRAL_INSUFFICIENT);
         }
         //兑换者扣除积分
         Integer nowIntegral =  hasIntegral - needIntegral;
@@ -87,7 +88,7 @@ public class ExchangeRecordsServiceImpl implements IExchangeRecordsService {
         List<ExchangeRecords> allByUserId = exchangeRecordsRepository.findAllByUserId(openId);
         List<ExchangeRecordsVo> list = new ArrayList<>(16);
         for (ExchangeRecords exchangeRecords : allByUserId) {
-            Resource resource = resourceRepository.findById(exchangeRecords.getResourceId()).orElseThrow(() -> new ZhsException("资源不存在"));
+            Resource resource = resourceRepository.findById(exchangeRecords.getResourceId()).orElseThrow(() -> new ZhsException(ResultEnum.RESOURCE_NOT_FOUND));
             ExchangeRecordsVo exchangeRecordsVo = new ExchangeRecordsVo();
             BeanUtils.copyProperties(exchangeRecords,exchangeRecordsVo);
             exchangeRecordsVo.setName(resource.getName());

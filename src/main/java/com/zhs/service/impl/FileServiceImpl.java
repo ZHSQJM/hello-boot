@@ -7,6 +7,7 @@ import com.zhs.dao.UserRepository;
 import com.zhs.dto.FileDto;
 import com.zhs.entity.SysFile;
 import com.zhs.entity.SysUser;
+import com.zhs.enums.ResultEnum;
 import com.zhs.exception.ZhsException;
 import com.zhs.service.IFileService;
 import com.zhs.utils.SnowflakeIdWorker;
@@ -52,7 +53,7 @@ public class FileServiceImpl implements IFileService {
 
         Optional<SysUser> optional = userRepository.findById(fileDto.getUserId());
         if(!optional.isPresent()){
-            throw new ZhsException("请输入正确的用户ID");
+            throw new ZhsException(ResultEnum.USER_NOT_FOUNT);
         }
         SysFile sysFile = new SysFile();
         BeanUtils.copyProperties(fileDto,sysFile);

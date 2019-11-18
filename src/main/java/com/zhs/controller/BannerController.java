@@ -40,6 +40,6 @@ public class BannerController {
     @GetMapping("/find")
     @ApiOperation(value = "获取banner",notes = "获取banner")
     public Result find(){
-        return Result.success(ResultCode.SUCCESS,bannerSerivce.getBanner(0));
+        return Result.success(bannerSerivce.getBanner(0));
     }
 }

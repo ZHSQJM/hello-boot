@@ -1,6 +1,7 @@
 package com.zhs.exception;
 
 import com.aliyun.oss.OSSException;
+import com.zhs.enums.ResultEnum;
 import com.zhs.utils.Result;
 import com.zhs.enums.ResultCode;
 import org.springframework.validation.BindingResult;
@@ -35,7 +36,7 @@ public class GlobalExceptionHandler {
             List<ObjectError> errors = bindingResult.getAllErrors();
             ObjectError error = errors.get(0);
             String msg = error.getDefaultMessage();
-            return Result.failure(ResultCode.FAILURE,msg);
+            return Result.failure(ResultEnum.USER_NOT_FOUNT,msg);
     }
 
 
@@ -48,7 +49,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public Result exceptionHandler(HttpServletRequest request, Exception ex){
         ex.printStackTrace();
-        return Result.failure(ResultCode.FAILURE,"系统错误,请联系开发人员");
+        return Result.failure(ResultEnum.FAIL);
     }
 
     /**
@@ -58,12 +59,12 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = ZhsException.class)
     public Result zhsExceptionHandler(ZhsException ex){
-        return Result.failure(ResultCode.FAILURE,ex.getMsg());
+        return Result.failure(ex.getCode(),ex.getMessage());
     }
 
-    @ExceptionHandler(value = OSSException.class)
-    public Result OSSExceptionHandler(OSSException ex){
-        return Result.failure(ResultCode.FAILURE,ex.getMessage());
-    }
+//    @ExceptionHandler(value = OSSException.class)
+//    public Result OSSExceptionHandler(OSSException ex){
+//        return Result.failure(ResultCode.FAILURE,ex.getMessage());
+//    }
 
 }

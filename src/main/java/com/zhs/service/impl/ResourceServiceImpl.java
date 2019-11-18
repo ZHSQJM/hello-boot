@@ -7,6 +7,7 @@ import com.zhs.dao.ResourceRepository;
 import com.zhs.dao.WeixinUserReposotory;
 import com.zhs.dto.ResourceDto;
 import com.zhs.entity.*;
+import com.zhs.enums.ResultEnum;
 import com.zhs.exception.ZhsException;
 import com.zhs.service.IResourceService;
 import com.zhs.utils.SnowflakeIdWorker;
@@ -59,7 +60,7 @@ public class ResourceServiceImpl implements IResourceService {
     public void saveResource(ResourceDto resourceDto) {
         Optional<Category> optional = categoryRepository.findById(resourceDto.getCategoryType());
         if(!optional.isPresent()){
-            throw new ZhsException("没有该类目,请重新选择");
+            throw new ZhsException(ResultEnum.CATEGORY_NOT_FOUND);
         }
 
         Resource resource = new Resource();
@@ -70,12 +71,12 @@ public class ResourceServiceImpl implements IResourceService {
         Optional<WeiXinUser> userOptional = weixinUserReposotory.findById(openId);
 
         if(!userOptional.isPresent()){
-           throw new ZhsException("用户不存在");
+           throw new ZhsException(ResultEnum.USER_NOT_FOUNT);
         }
         WeiXinUser weixinUser = userOptional.get();
         Integer hasIntegral = weixinUser.getIntegral();
         Integer totalIntegral = hasIntegral + resource.getIntegral();
-        resource.setRecords(0);
+        resource.setRecords(1);
         weixinUser.setIntegral(totalIntegral);
         weixinUserReposotory.save(weixinUser);
         resourceRepository.save(resource);
@@ -112,11 +113,9 @@ public class ResourceServiceImpl implements IResourceService {
     @Override
     public ResourceVo getdetail(Long id) {
         ResourceVo resourceVo  = new ResourceVo();
-        Resource resource = resourceRepository.findById(id).orElseThrow(() -> new ZhsException("找不到该资源"));
+        Resource resource = resourceRepository.findById(id).orElseThrow(() -> new ZhsException(ResultEnum.RESOURCE_NOT_FOUND));
 
-        if(resource.getStatus().equals("1")){
-            new ZhsException("资源过期");
-        }
+
         BeanUtils.copyProperties(resource,resourceVo);
         String openId = resource.getOpenId();
         WeiXinUser byOpenId = weixinUserReposotory.findByOpenId(openId);

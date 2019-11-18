@@ -10,7 +10,17 @@ package com.zhs.service;
 public interface ISignRecordsService {
 
 
+    /**
+     * 签到
+     * @param openId
+     */
     void  SignRecord(String openId);
 
+
+    /**
+     * 判断是否签到
+     * @param openId
+     * @return
+     */
     boolean isSign(String openId);
 }

@@ -37,7 +37,6 @@ public class HelloBootApplication {
         return new JPAQueryFactory(entityManager);
     }
 
-    // springboot2 写法
 //    @Bean
 //    public TomcatServletWebServerFactory servletContainer() {
 //        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
@@ -54,7 +53,7 @@ public class HelloBootApplication {
 //        tomcat.addAdditionalTomcatConnectors(httpConnector());
 //        return tomcat;
 //    }
-
+//
 //    @Bean
 //    public Connector httpConnector() {
 //        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");

@@ -42,13 +42,13 @@ public class FileController {
     @GetMapping("/find-all")
     @ApiOperation(value = "根据条件获取所有的文件数据",notes = "根据条件获取所有的文件数据")
     public Result findAll( FileCondition fileCondition){
-        return Result.success(ResultCode.SUCCESS,fileService.findAll(fileCondition));
+        return Result.success(fileService.findAll(fileCondition));
     }
 
     @GetMapping("/find-all-page")
     @ApiOperation(value = "根据条件获取所有的用户数据(分页)",notes = "根据条件获取所有的用户数据(分页)")
     public Result findPage(FileCondition fileCondition, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10")int pageSize){
-        return Result.success(ResultCode.SUCCESS,fileService.findAllPage(fileCondition,page,pageSize));
+        return Result.success(fileService.findAllPage(fileCondition,page,pageSize));
     }
 
 }

@@ -7,6 +7,7 @@ import com.zhs.dao.UserRepository;
 import com.zhs.dto.UserDto;
 import com.zhs.entity.SysRole;
 import com.zhs.entity.SysUser;
+import com.zhs.enums.ResultEnum;
 import com.zhs.exception.ZhsException;
 import com.zhs.service.IUserService;
 import com.zhs.utils.SnowflakeIdWorker;
@@ -58,7 +59,7 @@ public class UserServiceImpl implements IUserService {
     public void saveUser(UserDto userDto) {
         SysUser sysUserByUserName = userRepository.findSysUserByUsername(userDto.getUsername());
         if(sysUserByUserName!=null){
-            throw  new ZhsException("用户名已存在");
+            throw  new ZhsException(ResultEnum.USER_HAS_EXIT);
         }
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(userDto,sysUser);
@@ -75,7 +76,7 @@ public class UserServiceImpl implements IUserService {
         Optional<SysUser> optional = userRepository.findById(id);
         SysUser sysUser = optional.isPresent()? optional.get():null;
         if(sysUser==null){
-            throw new ZhsException("改用户不存在");
+            throw new ZhsException(ResultEnum.USER_NOT_FOUNT);
         }
         sysUser.setStatus(1);
         sysUser.setUpdateTime(new Date());
@@ -86,12 +87,12 @@ public class UserServiceImpl implements IUserService {
     @CachePut(key = "#p0")
     public void updateUser(UserDto userDto) {
       if(userDto.getId()==null){
-          throw new ZhsException("请传入需要修改的用户");
+          throw new ZhsException(ResultEnum.USER_NOT_FOUNT);
       }
         Optional<SysUser> optional = userRepository.findById(userDto.getId());
         SysUser sysUser = optional.isPresent()? optional.get():null;
         if(sysUser==null){
-            throw new ZhsException("改用户不存在");
+            throw new ZhsException(ResultEnum.USER_HAS_EXIT);
         }
         sysUser.setUpdateTime(new Date());
         userRepository.save(sysUser);
@@ -172,7 +173,7 @@ public class UserServiceImpl implements IUserService {
         Optional<SysUser> optional = userRepository.findById(userId);
         SysUser sysUser = optional.isPresent()? optional.get():null;
         if(sysUser==null){
-            throw new ZhsException("该用户不存在");
+            throw new ZhsException(ResultEnum.USER_NOT_FOUNT);
         }
 
         List<SysRole> roles = roleRepository.findAllById(roleIds);

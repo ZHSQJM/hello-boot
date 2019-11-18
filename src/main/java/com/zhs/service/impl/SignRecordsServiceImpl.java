@@ -2,6 +2,7 @@ package com.zhs.service.impl;
 
 import com.zhs.dao.SignRecordsRepository;
 import com.zhs.entity.SignRecords;
+import com.zhs.enums.ResultEnum;
 import com.zhs.exception.ZhsException;
 import com.zhs.service.ISignRecordsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class SignRecordsServiceImpl implements ISignRecordsService {
         final SignRecords byDateAndOpenid = signRecordsRepository.findByDateAndOpenid(strNow, openId);
 
           if(byDateAndOpenid!=null){
-              throw  new ZhsException("今日已经签到了,请明天继续");
+              throw  new ZhsException(ResultEnum.USER_HAS_SOGN);
           }
 
           SignRecords signRecords  = new SignRecords();

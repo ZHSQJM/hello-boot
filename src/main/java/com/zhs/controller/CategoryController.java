@@ -40,6 +40,6 @@ public class CategoryController {
     @GetMapping("/find")
     @ApiOperation(value = "获取所有类目",notes = "获取所有类目")
     public Result findPage(){
-        return Result.success(ResultCode.SUCCESS,categoryService.findAll());
+        return Result.success(categoryService.findAll());
     }
 }

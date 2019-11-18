@@ -62,7 +62,7 @@ public class WeiXinController {
             weixinUserService.add(weixinUserDto);
         }
         log.info("wxResult"+wxResult);
-        return Result.success();
+        return Result.success(userByOpenId);
     }
 
 }

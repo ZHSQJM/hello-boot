@@ -69,6 +69,7 @@ public class Resource implements Serializable {
     private Long categoryType;
 
     /*** 所属状态*/
+    /**0审核成功 1 未审核  2 审核成功 3 审核失败*/
     @Column(length = 32)
     private Integer status;
 

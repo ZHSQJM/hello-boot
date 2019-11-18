@@ -47,6 +47,6 @@ public class RoleController {
     @GetMapping("/find-all-page")
     @ApiOperation(value = "根据条件获取所有的用户数据(分页)",notes = "根据条件获取所有的用户数据(分页)")
     public Result findPage(RoleCondition roleCondition, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10")int pageSize){
-        return Result.success(ResultCode.SUCCESS,roleService.findPage(roleCondition,page,pageSize));
+        return Result.success(roleService.findPage(roleCondition,page,pageSize));
     }
 }

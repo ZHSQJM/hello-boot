@@ -1,5 +1,6 @@
 package com.zhs.exception;
 
+import com.zhs.enums.ResultEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ZhsException extends RuntimeException {
 
-    private String msg;
+    private Integer code;
+
+    public ZhsException(ResultEnum resultEnum) {
+        super(resultEnum.getMsg());
+        this.code = resultEnum.getCode();
+    }
+
 
 
 }

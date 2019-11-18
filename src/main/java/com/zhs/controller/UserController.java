@@ -52,20 +52,20 @@ public class UserController {
     @GetMapping("/{id}")
     @ApiOperation(value = "根据ID获取用户",notes = "根据ID获取用户")
     public Result getUserById(@PathVariable(name = "id") Long id){
-        return Result.success(ResultCode.SUCCESS,userService.findUserById(id));
+        return Result.success(userService.findUserById(id));
     }
 
 
     @GetMapping("/find-all")
     @ApiOperation(value = "根据条件获取所有的用户数据",notes = "根据条件获取所有的用户数据")
     public Result findAll( UserCondition userCondition){
-        return Result.success(ResultCode.SUCCESS,userService.findAll(userCondition));
+        return Result.success(userService.findAll(userCondition));
     }
 
     @GetMapping("/find-all-page")
     @ApiOperation(value = "根据条件获取所有的用户数据(分页)",notes = "根据条件获取所有的用户数据(分页)")
     public Result findPage(UserCondition userCondition,@RequestParam(defaultValue = "1") int page,@RequestParam(defaultValue = "10")int pageSize){
-        return Result.success(ResultCode.SUCCESS,userService.findPage(userCondition,page,pageSize));
+        return Result.success(userService.findPage(userCondition,page,pageSize));
     }
 
     @GetMapping("/setting-roles")
