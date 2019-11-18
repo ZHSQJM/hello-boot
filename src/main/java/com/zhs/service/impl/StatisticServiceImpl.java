@@ -36,7 +36,7 @@ public class StatisticServiceImpl implements IStatisticsService {
 
     @Override
     public StatisticsVo getPersonnal(String openId) {
-        System.out.println("dasda");
+
         StatisticsVo statisticsVo = new StatisticsVo();
         WeiXinUser byOpenId = weixinUserReposotory.findByOpenId(openId);
         Integer integral = byOpenId.getIntegral();
