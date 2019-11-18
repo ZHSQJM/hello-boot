@@ -53,6 +53,7 @@ public class UserController {
     @ApiOperation(value = "根据ID获取用户",notes = "根据ID获取用户")
     public Result getUserById(@PathVariable(name = "id") Long id){
         return Result.success(userService.findUserById(id));
+
     }
 
 
