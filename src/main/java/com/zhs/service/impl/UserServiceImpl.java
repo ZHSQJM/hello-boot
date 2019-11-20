@@ -1,6 +1,5 @@
 package com.zhs.service.impl;
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.zhs.condition.UserCondition;
 import com.zhs.dao.RoleRepository;
 import com.zhs.dao.UserRepository;
@@ -40,9 +39,6 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private RoleRepository roleRepository;
-
-    @Autowired
-    private JPAQueryFactory jpaQueryFactory;
 
     @Autowired
     private SnowflakeIdWorker snowflakeIdWorker;

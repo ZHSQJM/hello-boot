@@ -1,18 +1,11 @@
 package com.zhs;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.zhs.utils.SnowflakeIdWorker;
-import org.apache.catalina.Context;
-import org.apache.catalina.connector.Connector;
-import org.apache.tomcat.util.descriptor.web.SecurityCollection;
-import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 
 
-import javax.persistence.EntityManager;
 
 @SpringBootApplication
 @EnableCaching
@@ -27,15 +20,15 @@ public class HelloBootApplication {
         return new SnowflakeIdWorker(1,1);
     }
 
-    /**
-     * 让Spring管理JPAQueryFactory
-     * @param entityManager
-     * @return
-     */
-    @Bean
-    public JPAQueryFactory jpaQueryFactory(EntityManager entityManager){
-        return new JPAQueryFactory(entityManager);
-    }
+//    /**
+//     * 让Spring管理JPAQueryFactory
+//     * @param entityManager
+//     * @return
+//     */
+//    @Bean
+//    public JPAQueryFactory jpaQueryFactory(EntityManager entityManager){
+//        return new JPAQueryFactory(entityManager);
+//    }
 
 //    @Bean
 //    public TomcatServletWebServerFactory servletContainer() {

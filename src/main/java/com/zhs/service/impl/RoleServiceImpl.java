@@ -1,6 +1,5 @@
 package com.zhs.service.impl;
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.zhs.condition.RoleCondition;
 import com.zhs.dao.RoleRepository;
 import com.zhs.dto.RoleDto;
@@ -31,8 +30,6 @@ public class RoleServiceImpl implements IRoleService {
     @Autowired
     private SnowflakeIdWorker snowflakeIdWorker;
 
-    @Autowired
-    private JPAQueryFactory jpaQueryFactory;
 
 
     @Override

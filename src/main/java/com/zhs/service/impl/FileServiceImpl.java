@@ -1,6 +1,5 @@
 package com.zhs.service.impl;
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.zhs.condition.FileCondition;
 import com.zhs.dao.FileRepository;
 import com.zhs.dao.UserRepository;
@@ -41,8 +40,6 @@ public class FileServiceImpl implements IFileService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private JPAQueryFactory jpaQueryFactory;
 
     @Autowired
     private SnowflakeIdWorker snowflakeIdWorker;
