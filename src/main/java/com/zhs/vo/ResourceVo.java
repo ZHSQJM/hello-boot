@@ -52,6 +52,9 @@ public class ResourceVo implements Serializable {
     @JsonSerialize(using= ToStringSerializer.class)
     private Long categoryType;
 
+
+    private String phothUrl;
+
     /*** 所属状态*/
 
     private Integer status;

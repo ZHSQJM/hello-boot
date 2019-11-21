@@ -37,7 +37,7 @@ public class WeiXinController {
 
     @PostMapping("wxLogin")
     @ApiOperation(value = "根据code获取openid",notes = "根据code获取openid")
-    public Result wxLogin(WeixinUserDto weixinUserDto){
+    public Result wxLogin(@RequestBody WeixinUserDto weixinUserDto){
 
         //https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code
 
@@ -56,7 +56,7 @@ public class WeiXinController {
         WeiXinUser userByOpenId = weixinUserService.findUserByOpenId(sessionUser.getOpenid());
 
         if(userByOpenId!=null){
-            weixinUserService.update(weixinUserDto);
+            weixinUserService.update(userByOpenId);
         }else {
             weixinUserDto.setOpenId(sessionUser.getOpenid());
             weixinUserService.add(weixinUserDto);

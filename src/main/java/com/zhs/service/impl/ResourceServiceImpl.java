@@ -93,7 +93,7 @@ public class ResourceServiceImpl implements IResourceService {
         ResourceVo resourceVo = new ResourceVo();
         if(optional1.isPresent()){
             Resource resource = optional1.get();
-           BeanUtils.copyProperties(resource,resourceVo);
+            BeanUtils.copyProperties(resource,resourceVo);
         }
 
         if(optional.isPresent()){

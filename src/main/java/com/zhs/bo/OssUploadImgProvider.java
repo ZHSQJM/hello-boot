@@ -60,7 +60,7 @@ public class OssUploadImgProvider {
             if (url != null) {
                 return url.toString();
             }
-            return  url.toString();
+            return  null;
         } catch (OSSException oe) {
             System.out.println("Caught an OSSException, which means your request made it to OSS, "
                     + "but was rejected with an error response for some reason.");
@@ -83,15 +83,25 @@ public class OssUploadImgProvider {
         }
     }
 
-    private static File createSampleFile() throws IOException {
-        File file = File.createTempFile("oss-java-sdk-", ".png");
-        file.deleteOnExit();
+    private static File createSampleFile(){
+        File file = null;
+        Writer writer = null;
+        try {
+            file = File.createTempFile("oss-java-sdk-", ".png");
+            file.deleteOnExit();
 
-        Writer writer = new OutputStreamWriter(new FileOutputStream(file));
-        writer.write("abcdefghijklmnopqrstuvwxyz\n");
-        writer.write("0123456789011234567890\n");
-        writer.close();
-
+             writer = new OutputStreamWriter(new FileOutputStream(file));
+            writer.write("abcdefghijklmnopqrstuvwxyz\n");
+            writer.write("0123456789011234567890\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         return file;
     }
 

@@ -16,7 +16,7 @@ public interface IWeixinUserService {
     void add(WeixinUserDto weixinUserDto);
 
 
-    void update(WeixinUserDto weixinUserDto);
+    void update(WeiXinUser weixinUser);
 
     WeiXinUser findUserByOpenId(String openId);
 }

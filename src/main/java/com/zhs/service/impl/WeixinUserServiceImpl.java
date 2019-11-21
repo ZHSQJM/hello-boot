@@ -38,11 +38,9 @@ public class WeixinUserServiceImpl implements IWeixinUserService {
     }
 
     @Override
-    public void update(WeixinUserDto weixinUserDto) {
-        WeiXinUser weixinUser = new WeiXinUser();
-        BeanUtils.copyProperties(weixinUserDto,weixinUser);
-        weixinUser.setRecentlyTime(new Date());
-        weixinUserReposotory.save(weixinUser);
+    public void update(WeiXinUser weiXinUser) {
+        weiXinUser.setRecentlyTime(new Date());
+        weixinUserReposotory.save(weiXinUser);
 
     }
 

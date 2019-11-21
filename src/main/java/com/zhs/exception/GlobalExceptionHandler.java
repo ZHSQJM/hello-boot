@@ -4,6 +4,7 @@ import com.aliyun.oss.OSSException;
 import com.zhs.enums.ResultEnum;
 import com.zhs.utils.Result;
 import com.zhs.enums.ResultCode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -21,6 +22,7 @@ import java.util.List;
  */
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     /**
@@ -48,7 +50,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     public Result exceptionHandler(HttpServletRequest request, Exception ex){
-        ex.printStackTrace();
+        log.error("{}",ex);
         return Result.failure(ResultEnum.FAIL);
     }
 
