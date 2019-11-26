@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,6 +66,7 @@ public class ExchangeRecordsServiceImpl implements IExchangeRecordsService {
         weixinUser.setIntegral(nowIntegral);
         weixinUserReposotory.save(weixinUser);
         exchangeRecords.setStatus(0);
+        exchangeRecords.setCreateTime(new Date());
         exchangeRecords.setId(snowflakeIdWorker.nextId());
         exchangeRecordsRepository.save(exchangeRecords);
 

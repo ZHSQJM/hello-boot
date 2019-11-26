@@ -146,6 +146,21 @@ public class ResourceServiceImpl implements IResourceService {
 
     }
 
+    @Override
+    public List<ResourceVo> getHotResource() {
+        final List<Resource> resourcesByRecordsLimitThree =
+                resourceRepository.findResourcesByRecordsLimitThree();
+
+        List<ResourceVo> list = new ArrayList<>(16);
+        for (Resource resource : resourcesByRecordsLimitThree) {
+            ResourceVo resourceVo = new ResourceVo();
+            BeanUtils.copyProperties(resource,resourceVo);
+            list.add(resourceVo);
+        }
+
+        return list;
+    }
+
 
     public Specification getSpecification(Resource resourceCondition){
         return (a,b,c)-> {

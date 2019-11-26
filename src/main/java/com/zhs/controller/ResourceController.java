@@ -72,8 +72,14 @@ public class ResourceController {
     @GetMapping("/find-resource-by-id")
     @ApiOperation(value = "获取单个资源的详细信息",notes = "获取单个资源的详细信息(分页)")
     public Result findResourceById(String openId,Long id){
-
         return Result.success(resourceService.findResourceById(id,openId));
     }
 
+
+    @GetMapping("/get-hot-resource")
+    @ApiOperation(value = "获取热门资源三个")
+    public  Result findHotResource(){
+
+        return Result.success(resourceService.getHotResource());
+    }
 }

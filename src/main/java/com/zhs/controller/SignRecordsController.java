@@ -5,10 +5,9 @@ import com.zhs.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 
 /**
  * @project: hello-boot
@@ -29,14 +28,14 @@ public class SignRecordsController {
 
     @PostMapping
     @ApiOperation(value = "签到",notes = "签到")
-    public Result signRecord(String openId){
-        signRecordsService.SignRecord(openId);
+    public Result signRecord(@RequestBody HashMap<String,String> param){
+        signRecordsService.SignRecord(param.get("openId"));
         return Result.success();
     }
 
     @GetMapping
     @ApiOperation(value = "判断用户是否今天已经签到")
-    public Result isSign(String openId){
+    public Result isSign(@RequestParam(value = "openId") String openId){
         final boolean sign = signRecordsService.isSign(openId);
         return Result.success(sign);
     }

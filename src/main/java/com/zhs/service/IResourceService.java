@@ -46,4 +46,6 @@ public interface IResourceService  {
 
     /**分页获取*/
     Page<Resource> findPage(ResourceCondition resourceCondition, int page, int pageSize);
+
+    List<ResourceVo> getHotResource();
 }

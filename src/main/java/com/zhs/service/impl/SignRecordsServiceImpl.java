@@ -1,7 +1,9 @@
 package com.zhs.service.impl;
 
 import com.zhs.dao.SignRecordsRepository;
+import com.zhs.dao.WeixinUserReposotory;
 import com.zhs.entity.SignRecords;
+import com.zhs.entity.WeiXinUser;
 import com.zhs.enums.ResultEnum;
 import com.zhs.exception.ZhsException;
 import com.zhs.service.ISignRecordsService;
@@ -23,12 +25,14 @@ public class SignRecordsServiceImpl implements ISignRecordsService {
 
     @Autowired
     private SignRecordsRepository signRecordsRepository;
+
+    @Autowired
+    private WeixinUserReposotory weixinUserReposotory;
     @Override
     public void SignRecord(String openId) {
 
         String strNow = new SimpleDateFormat("yyyy-MM-dd").format(new Date()).toString();
-        final SignRecords byDateAndOpenid = signRecordsRepository.findByDateAndOpenid(strNow, openId);
-
+        final SignRecords byDateAndOpenid = signRecordsRepository.findByDateTimeAndOpenid(strNow, openId);
           if(byDateAndOpenid!=null){
               throw  new ZhsException(ResultEnum.USER_HAS_SOGN);
           }
@@ -37,14 +41,21 @@ public class SignRecordsServiceImpl implements ISignRecordsService {
           signRecords.setDate(new Date()).setDateTime(strNow).setOpenid(openId);
 
           signRecordsRepository.save(signRecords);
+
+        final WeiXinUser byOpenId = weixinUserReposotory.findByOpenId(openId);
+
+
+        byOpenId.setIntegral(byOpenId.getIntegral()+10);
+
+        weixinUserReposotory.save(byOpenId);
+
     }
 
     @Override
-    public
-    boolean isSign(String openId) {
+    public boolean isSign(String openId) {
         String strNow = new SimpleDateFormat("yyyy-MM-dd").format(new Date()).toString();
 
-        final SignRecords byDateAndOpenid = signRecordsRepository.findByDateAndOpenid(strNow, openId);
+        final SignRecords byDateAndOpenid = signRecordsRepository.findByDateTimeAndOpenid(strNow, openId);
 
         return byDateAndOpenid ==null?false:true;
     }

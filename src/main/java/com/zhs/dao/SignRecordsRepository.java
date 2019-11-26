@@ -15,7 +15,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 public interface SignRecordsRepository extends JpaRepository<SignRecords,Integer>, JpaSpecificationExecutor<SignRecords>{
 
 
-    SignRecords findByDateAndOpenid(String date,String openId);
+    SignRecords findByDateTimeAndOpenid(String date,String openId);
 
 
 }

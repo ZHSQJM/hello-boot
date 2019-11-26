@@ -40,7 +40,7 @@ public class StatisticServiceImpl implements IStatisticsService {
         StatisticsVo statisticsVo = new StatisticsVo();
         WeiXinUser byOpenId = weixinUserReposotory.findByOpenId(openId);
         Integer integral = byOpenId.getIntegral();
-        List<Resource> resourcesByOpenIdAndStatus = resourceRepository.findResourcesByOpenIdAndStatus(openId, 0);
+        List<Resource> resourcesByOpenIdAndStatus = resourceRepository.findResourcesByOpenId(openId);
         Integer resourceId = resourcesByOpenIdAndStatus.size();
         List<ExchangeRecords> allByUserId = exchangeRecordsRepository.findAllByUserId(openId);
         Integer download = allByUserId.size();

@@ -4,6 +4,7 @@ import com.zhs.entity.Resource;
 import com.zhs.vo.ResourceVo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,5 +26,11 @@ public interface ResourceRepository  extends JpaRepository<Resource,Long>, JpaSp
     List<Resource> findResourceByCategoryTypeAndStatus(Long type,Integer status);
 
 
+
+    List<Resource> findResourcesByOpenId(String openId);
     List<Resource> findResourcesByOpenIdAndStatus(String openId,Integer status);
+
+
+    @Query(value = "select * from  resource where status = 0  ORDER BY records DESC LIMIT 1,3 " ,nativeQuery = true)
+    List<Resource> findResourcesByRecordsLimitThree();
 }
